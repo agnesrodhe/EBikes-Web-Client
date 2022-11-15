@@ -303,7 +303,7 @@ responsive for mobile
     }
   
     .nav-menu.active {
-      background: #008037;
+      background: rgb(255, 255, 255);
       left: 0px;
       top:5.1em;
       opacity: 1;
@@ -332,7 +332,7 @@ responsive for mobile
       transform: translate(-100%, 60%);
       font-size: 1.8rem;
       cursor: pointer;
-      color: rgb(255, 255, 255);
+      color: #008037;
     }
   
   /*
