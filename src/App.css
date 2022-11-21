@@ -13,7 +13,7 @@ body {
 
 .body {
   max-width: 80%;
-  margin-left: 10%;
+  margin-left: 11%;
   display:block;
 }
 
@@ -123,7 +123,6 @@ h2 {
   padding-top: 5px;
 }
 
-
 .nav-icon {
   display: none;
 }
@@ -159,6 +158,34 @@ h2 {
   color: var(--font_color);
   display: flex;
 }
+
+/*
+Homepage
+*/
+
+.homepicone {
+  width: 100%;
+  padding-top: 5%;
+}
+
+.buttonnewclient {
+  min-width: 5%;
+  background-color:#FFE39A;
+  color: #413c3c;
+  border-color: rgba(255, 255, 255, 0.05);
+  padding: 2%;
+  margin-left: 35%;
+  font-weight: 600;
+  border-radius: 5px;
+  cursor: pointer;
+  border-bottom: 3px #00000044 solid;
+  margin-bottom: 15%;
+  font-size: large;
+}
+.buttonnewclient:hover{
+  outline: 2px solid rgba(0, 0, 0, 0.353);
+}
+
 
 /*
 if logged in menu
@@ -201,7 +228,7 @@ if logged in menu
   display: block;
   height: 50px;
   width: 50%;
-  background-color: rgba(255, 255, 255, 0.05);
+  background-color: #FFFFFF;
   border-radius: 3px;
   padding: 0 10px;
   margin-top: 8px;
@@ -213,24 +240,24 @@ if logged in menu
   }
   
 input:hover{
-  outline: 2px solid #0001;
+  outline: 5px solid rgba(0, 0, 0, 0.107);
 }
 
 .button {
   margin-top: 10px;
   width: 30%;
-  background-color:#008037;
+  background-color:#D7EFE1;
   color: #080710;
   border-color: rgba(255, 255, 255, 0.05);
-  padding: 5px;
+  padding: 7px;
   margin-left: 13%;
   font-weight: 600;
   border-radius: 5px;
   cursor: pointer;
-  border-bottom: 1px #0000008d solid;
+  border-bottom: 2px #00000044 solid;
 }
 .button:hover{
-  outline: 1px solid rgba(0, 0, 0, 0.353);
+  outline: 2px solid rgba(0, 0, 0, 0.353);
 }
 
 .login-card{
@@ -245,6 +272,7 @@ input:hover{
 
 .h2login{
   margin-left: -45%;
+  color: #FFFFFF;
 }
 
 @media only screen and (max-width: 600px) {
@@ -260,19 +288,110 @@ input:hover{
 }
 
 /*
-If logged in
+If logged in user
 */
 
-.logedinbody {
-  position:inherit;
-  text-align:center;
-  display: inline-block;
-  width:21.8%;
-  margin:1.6%;
+
+/*
+if logged admin
+*/
+
+.navloggedin {
+  margin: 0;
+  margin-top: 1.2em;
+  padding: 0;
+  width: 180px;
+  background-color: #f1f1f1;
+  position: absolute;
+  top:80px;
+  height: 100%;
+  margin-left: -10%;
+
 }
 
-.homepicone {
-  max-width: 70%;
+.buttonifloggedin {
+  text-decoration: none;
+  display: inline-block;
+  padding: 20px;
+  font-size: 16px;
+  align-items: center;
+  background-color: #50A246;
+  border: none;
+  color: #fff;
+}
+
+.buttonifloggedin:hover {
+    transition: all 0.25s ease;    
+    background: rgb(255, 255, 255);
+    cursor: pointer;
+    color: #008037;
+  }
+
+.menuitemsloggedin {
+  font-size: 16px;
+  border-bottom: 1px solid #fff;
+  border-right: 1px solid #fff;
+}
+
+.menuloggedin {
+    background: rgb(255, 255, 255);
+    height: 150%;
+    width: 115%;
+    list-style-type: none;
+    align-items: center;
+  }
+
+.cityname {
+  text-align: center;
+  padding:3%;
+  color: #fff;
+}
+
+.buttoncity {
+  margin-top: 10px;
+  width: 20%;
+  background-color:#fff;
+  color: #080710;
+  border-color: rgba(255, 255, 255, 0.05);
+  padding: 20px;
+  margin-left: 10%;
+  font-weight: 600;
+  border-radius: 5px;
+  cursor: pointer;
+  border-bottom: 2px #00000044 solid;
+}
+.buttoncity:hover{
+  outline: 2px solid rgba(0, 0, 0, 0.353);
+}
+
+.buttonclient {
+  margin-top: 10px;
+  width: 20%;
+  background-color:#fff;
+  color: #080710;
+  border-color: rgba(255, 255, 255, 0.05);
+  padding: 20px;
+  margin-left: 40%;
+  font-weight: 600;
+  border-radius: 5px;
+  cursor: pointer;
+  border-bottom: 2px #00000044 solid;
+}
+.buttonclient:hover{
+  outline: 2px solid rgba(0, 0, 0, 0.353);
+}
+
+/*
+Map
+*/
+
+.boxes {
+  display: grid;
+  grid-template-columns: 5fr 1fr;
+}
+
+.besidemap {
+  color: #fff;
 }
 
 
@@ -368,30 +487,49 @@ responsive for mobile
   responsive menu for logged in menu
   */
 
+  .navloggedin {
+    margin: 0;
+    margin-top: 1.2em;
+    padding: 0;
+    width: 180px;
+    background-color: #f1f1f1;
+    position: fixed;
+    top:80px;
+    height: 100%;
+    margin-left: -30%;
+  
+  }
+  
   .buttonifloggedin {
     text-decoration: none;
+    display:inline-table;
     padding: 20px;
     font-size: 16px;
     align-items: center;
-    background-color: #008037;
-    border: 1px solid #fff;
-    width: 100%;
+    background-color: #50A246;
+    border: none;
+    color: #fff;
   }
+  
+  .buttonifloggedin:hover {
+      transition: all 0.25s ease;    
+      background: rgb(255, 255, 255);
+      cursor: pointer;
+      color: #008037;
+    }
   
   .menuitemsloggedin {
     font-size: 16px;
-    display:block;
-    float: left;
-    width: 25%;
+    border-bottom: 1px solid #fff;
+    border-right: 1px solid #fff;
   }
   
   .menuloggedin {
-      background: #008037;
-      margin-left: 0%;
+      background: rgb(255, 255, 255);
+      height: 100vh;
+      width: 115%;
       list-style-type: none;
       align-items: center;
-      display:inline;
-      transition: all 0.25s ease;  
     }
   }
 

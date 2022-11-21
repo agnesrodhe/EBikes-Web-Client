@@ -1,10 +1,12 @@
 import { useState } from 'react';
+import {useNavigate} from 'react-router-dom';
 
 //import authModel from '../models/auth';
 
 //Login function to register new user and login if user is found and set value token when logged in.
 export default function Login({setToken, setUserId, setUserRole}) {
     const [user, setUser] = useState({});
+    const navigate = useNavigate();
 
     function changeHandler(event) {
         let newObject = {};
@@ -14,8 +16,20 @@ export default function Login({setToken, setUserId, setUserRole}) {
         setUser({...user, ...newObject});
     }
 
-    function printer() {
-        console.log("hej")
+    function loggedinrole(user) {
+        if (user.email === "admin"){
+            setUserRole("admin")
+            setToken(12345)
+            setUserId(12345)
+            navigate('/anvandare', {replace: true });
+        } else if (user.email === "user") {
+            setUserRole("user")
+            setToken("12345")
+            setUserId("12345")
+            navigate('/anvandare', {replace: true });
+        } else {
+            setUser("error")
+        }
     }
 /*
     async function register() {
@@ -45,7 +59,10 @@ export default function Login({setToken, setUserId, setUserRole}) {
                     <div className="form-group">
                         <input type="password" className="emailinput" placeholder="Enter password" name="password" onChange={changeHandler}/>
                     </div>
-                    <button onClick={printer()} className="button">Logga in</button>
+                    {user.email === "error" ? 
+                    <p>E-post eller lösenord är felaktigt.</p>
+                    : null}
+                    <button onClick={() => loggedinrole(user)} className="button">Logga in</button>
             </div>
         </>
     );
