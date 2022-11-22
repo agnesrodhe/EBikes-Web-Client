@@ -3,18 +3,18 @@ import {useState} from 'react';
 import {NavLink}  from 'react-router-dom';
 
 import image from "./logo.png";
-import imagelogo from "./logotext.png";
 
-import { AiFillHome, AiOutlineMenu, AiOutlineUser, } from 'react-icons/ai';
-import { GiInfo } from 'react-icons/gi';
+import { AiOutlineMenu} from 'react-icons/ai';
 import { FiLogOut } from "react-icons/fi";
 
-export default function Navbar({setToken, token, setUserId}) {
+export default function Navbar({setToken, token, setUserId, setUserRole, role, user}) {
   const [click, setClick] = useState(false);
+  //const userID = useRef("")
 
   async function logout() {
     setToken("")
     setUserId("")
+    setUserRole("")
     handleClick()
   }
 
@@ -52,17 +52,30 @@ export default function Navbar({setToken, token, setUserId}) {
                 <a className='navfont'>Om</a>
               </NavLink>
             </li>
+            {user !== "" ? (
             <li className="nav-item">
               <NavLink
                 exact
-                to="/loggain"
+                to="/anvandare"
                 activeClassName="active"
                 className="nav-links"
                 onClick={click ? handleClick : null}
               >
-                <a className='navfont'>Logga in</a>
+                <a className='navfont'>Användare</a>
               </NavLink>
-            </li>
+              </li>
+            ) : 
+            <li className="nav-item">
+            <NavLink
+              exact
+              to="/loggain"
+              activeClassName="active"
+              className="nav-links"
+              onClick={click ? handleClick : null}
+            >
+              <a className='navfont'>Logga in</a>
+            </NavLink>
+          </li>}
             {token !== "" ? (
                 <li className="nav-item">
                 <NavLink

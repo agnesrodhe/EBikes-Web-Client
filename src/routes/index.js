@@ -1,15 +1,23 @@
 import React from 'react';
 import {useState, useEffect} from 'react';
+import {Routes, Route, useNavigate} from 'react-router-dom';
 
-import image from "./images/homeone.png";
+import image1 from "./images/home.png";
 
 
-export default function Home({token}) {
+export default function Home() {
+  const navigate = useNavigate();
+  function navigatereg() {
+    navigate('/registrera');
+  }
 
   return (
     <div className='body'>
       <div className='kit'>
-      <img src={image} alt="image" className="homepicone"></img>
+        <div className='homepageimages'>
+        <img src={image1} alt="image" className="homepicone"></img>
+        <button onClick={() => navigatereg()} className='buttonnewclient'>Registrera dig? Klicka här!</button>
+        </div>
       </div>
     </div>
   );

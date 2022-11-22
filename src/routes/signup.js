@@ -1,18 +1,11 @@
 import React from 'react';
+import Login from '../components/Login';
 
-const SignUp = () => {
-    return (
-    <div
-        style={{
-            display: 'flex',
-            justifyContent: 'Right',
-            alignItems: 'Right',
-            height: '100vh'
-        }}
-        >
-        <h1>Sign Up</h1>
-    </div>
-);
+export default function Signup({setToken, token, setUserId, setUserRole}) {
+  return (
+    <div  className='body'>
+        <p>Ändra vid oauth</p>
+    <Login setToken={setToken} setUserId={setUserId} setUserRole={setUserRole} />
+      </div>
+  );
 };
-
-export default SignUp;
