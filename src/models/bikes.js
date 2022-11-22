@@ -10,17 +10,33 @@ const bikesModel = {
             .catch((error) => {
                 console.log(error)
             });
-            console.log(result)
         return result
     },
-    getAllActiveBikes: async function getAllBikes() {
-        const result = fetch(`${baseURL}/v1/bikes`)
+    getAllActiveBikes: async function getAllActiveBikes(cityID) {
+        try {
+            const response = await fetch(`${baseURL}/v1/bikes/city/${cityID}/active`);
+            const result = await response.json();
+            return result;
+        } catch (error) {
+            console.log(error)
+        }
+    },
+    getAllInActiveBikes: async function getAllInActiveBikes(cityID) {
+        try {
+            const response = await fetch(`${baseURL}/v1/bikes/city/${cityID}/nonActive`);
+            const result = await response.json();
+            return result;
+        } catch (error) {
+            console.log(error)
+        }
+    },
+    getCityZones: async function getCityZones() {
+        const result = fetch(`${baseURL}/v1/cities`)
             .then(r => r.json())
             .then(result => {return result})
             .catch((error) => {
                 console.log(error)
             });
-            console.log(result)
         return result
     }
 }
