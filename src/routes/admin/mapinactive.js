@@ -10,7 +10,7 @@ const containerStyle = {
 };
 
 
-export default function MapCity({center, city, cityID, setBikes, bikes}){
+export default function MapCityIn({center, city, cityID, setBikes, bikes}){
     const [mainZone, setMainZone] = useState("");
     const [selectedBike, setSelectedBike] = useState(null);
     const { isLoaded, loadError } = useLoadScript({
@@ -22,8 +22,9 @@ export default function MapCity({center, city, cityID, setBikes, bikes}){
             result.forEach((place) => {
                 if (place.name === city) {
                     cityID.current = place._id;
-                    bikesModel.getAllActiveBikes(cityID.current).then(function(result){
+                    bikesModel.getAllInActiveBikes(cityID.current).then(function(result){
                         setBikes(result);
+                        console.log(result)
                     })
                     let coordinatesArray = [];
                     place.location.coordinates[0].forEach((value) => {

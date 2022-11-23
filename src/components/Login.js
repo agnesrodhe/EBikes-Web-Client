@@ -54,7 +54,7 @@ export default function Login({setToken, setUserId, setUserRole}) {
             <div className="login-card">
                 <h2 className='h2login'>Logga in</h2>
                     <div className="form-group">
-                        <input type="email" className="emailinput" placeholder="Enter email" name="email" onChange={changeHandler}/>
+                        <input type="email" className="emailinput" placeholder="Enter email" name="email"  onChange={changeHandler}/>
                     </div>
                     <div className="form-group">
                         <input type="password" className="emailinput" placeholder="Enter password" name="password" onChange={changeHandler}/>

@@ -1,40 +1,43 @@
 import React from 'react';
-import {useState, useEffect} from 'react';
+import {useState, useEffect, useRef} from 'react';
 import { useParams } from "react-router-dom";
-import { GoogleMap, useLoadScript, MarkerF, InfoWindowF } from '@react-google-maps/api';
 
-import bikesModel from '../../models/bikes.js';
 import Map from './map.js';
+import MapIn from './mapinactive.js';
 
-const containerStyle = { height: '100vh', width: '100%'}
+//Cities location and zones
+const centervisby = {
+    lat: 57.629472,
+    lng: 18.309996
+};
+
+const centerborlange = {
+    lat: 60.4824,
+    lng: 15.4463
+};
+
+const centerlund = {
+    lat: 55.703571,
+    lng: 13.191943
+};
 
 export default function Admin({token, user, role}) {
     const [comp, setComponent] = useState("")
+    const [bikes, setBikes] = useState("");
     const city = useParams();
+    const cityID = useRef("");
 
-    const centervisby = {
-        lat: 57.629472,
-        lng: 18.309996
-    };
-
-    const centervasteras = {
-        lat: 59.611060,
-        lng: 16.544369
-    };
-
-    const centerlund = {
-        lat: 55.703571,
-        lng: 13.191943
-    };
-    const center = null
     //Update and set documents as initial stage.
     useEffect(() => {
         clickhandler("map")
     }, []);
 
+    //To render one-page
     async function clickhandler(value) {
         if (value === "map"){
             setComponent("map")
+        } else if (value === "mapinactive"){
+            setComponent("mapinactive")
         } else if (value === "status"){
             setComponent("status")
         } else if (value === "stations"){
@@ -43,7 +46,6 @@ export default function Admin({token, user, role}) {
             setComponent("moveviecles")
         }
     };
-
 
     return (
         <div>
@@ -55,13 +57,13 @@ export default function Admin({token, user, role}) {
                     <button className='buttonifloggedin' onClick={() => clickhandler("map")}>Livevy aktiva</button>
                     </li>
                     <li className='menuitemsloggedin'>
-                    <button className='buttonifloggedin' onClick={() => clickhandler("map")}>Kartvy parkerade</button>
-                    </li>
-                    <li className='menuitemsloggedin'>
-                    <button className='buttonifloggedin' onClick={() => clickhandler("status")}>Statuskontroll</button>
+                    <button className='buttonifloggedin' onClick={() => clickhandler("mapinactive")}>Kartvy parkerade</button>
                     </li>
                     <li className='menuitemsloggedin'>
                     <button className='buttonifloggedin' onClick={() => clickhandler("stations")}>Laddstationer</button>
+                    </li>
+                    <li className='menuitemsloggedin'>
+                    <button className='buttonifloggedin' onClick={() => clickhandler("status")}>Statuskontroll</button>
                     </li>
                     <li className='menuitemsloggedin'>
                     <button className='buttonifloggedin' onClick={() => clickhandler("moveviecles")}>Förflytta fordon</button>
@@ -69,21 +71,37 @@ export default function Admin({token, user, role}) {
                 </ul>
             </div>
         <div className='kit'>
-            <h1 className='cityname'>Administratör</h1>
             {comp === "map" ?
+            <>
+                <h1 className='cityname'>Administratör - {city.stad} (Aktiva)</h1>
                 <div className='boxes'>
-                    {city.stad === "visby" ? 
-                    <Map center={centervisby}/> 
-                    : city.stad === "västerås" ?
-                    <Map center={centervasteras}/> 
-                    : city.stad === "lund" ? 
-                    <Map center={centerlund}/> : null}
+                    {city.stad === "Visby" ? 
+                    <Map center={centervisby} city={city.stad} bikes={bikes} setBikes={setBikes} cityID={cityID}/> 
+                    : city.stad === "Borlänge" ?
+                    <Map center={centerborlange} city={city.stad} bikes={bikes} setBikes={setBikes} cityID={cityID}/> 
+                    : city.stad === "Lund" ? 
+                    <Map center={centerlund} city={city.stad} bikes={bikes} setBikes={setBikes} cityID={cityID}/> : null}
                     
                     <div className='besidemap'> 
-                    <h2>Antal aktiva</h2>
                     </div>
                 </div>
-            : comp === "status" ?
+            </>
+            : comp === "mapinactive" ?
+            <>
+            <h1 className='cityname'>Administratör - {city.stad} (Inaktiva)</h1>
+                <div className='boxes'>
+                {city.stad === "Visby" ? 
+                <MapIn center={centervisby} city={city.stad} bikes={bikes} setBikes={setBikes} cityID={cityID}/> 
+                : city.stad === "Borlänge" ?
+                <MapIn center={centerborlange} city={city.stad} bikes={bikes} setBikes={setBikes} cityID={cityID}/> 
+                : city.stad === "Lund" ? 
+                <MapIn center={centerlund} city={city.stad} bikes={bikes} setBikes={setBikes} cityID={cityID}/> : null}
+                
+                <div className='besidemap'> 
+                </div>
+            </div>
+            </>
+        : comp === "status" ?
             <p>status</p>
             : null}
         </div>

@@ -22,11 +22,11 @@ export default function User({token, user, role}) {
 
     function setCity(city){
         if (city === "Visby"){
-            navigate('stad/visby');
-        } else if (city === "Västerås"){
-            navigate('stad/västerås');
+            navigate('stad/Visby');
+        } else if (city === "Borlänge"){
+            navigate('stad/Borlänge');
         } else if (city === "Lund"){
-            navigate('stad/lund');
+            navigate('stad/Lund');
         } else if (city === "Kund"){
             navigate('kund');
         }
@@ -43,7 +43,7 @@ export default function User({token, user, role}) {
                             <button onClick={() => setCity("Kund")} className="buttonclient">Hantera kund</button>
                             <h2 className='cityname'>Välj stad för att hantera data:</h2>
                             <button onClick={() => setCity("Visby")} className="buttoncity">Visby</button>
-                            <button onClick={() => setCity("Västerås")} className="buttoncity">Västerås</button>
+                            <button onClick={() => setCity("Borlänge")} className="buttoncity">Borlänge</button>
                             <button onClick={() => setCity("Lund")} className="buttoncity">Lund</button>
                         </div>
                     : extraSection === "user" ? 
