@@ -4,6 +4,7 @@ import { useParams } from "react-router-dom";
 
 import Map from './map.js';
 import MapIn from './mapinactive.js';
+import StatusCheck from './statuscheck.js';
 
 //Cities location and zones
 const centervisby = {
@@ -23,7 +24,6 @@ const centerlund = {
 
 export default function Admin({token, user, role}) {
     const [comp, setComponent] = useState("")
-    const [bikes, setBikes] = useState("");
     const city = useParams();
     const cityID = useRef("");
 
@@ -40,8 +40,6 @@ export default function Admin({token, user, role}) {
             setComponent("mapinactive")
         } else if (value === "status"){
             setComponent("status")
-        } else if (value === "stations"){
-            setComponent("stations")
         } else if (value === "moveviecles"){
             setComponent("moveviecles")
         }
@@ -52,15 +50,12 @@ export default function Admin({token, user, role}) {
         {role === "admin" ?
         <div className='body'>
                 <div className='navloggedin'>
-                <ul className='menuloggedin'>
+                <ul className='navloggedin'>
                     <li className='menuitemsloggedin'>
                     <button className='buttonifloggedin' onClick={() => clickhandler("map")}>Livevy aktiva</button>
                     </li>
                     <li className='menuitemsloggedin'>
                     <button className='buttonifloggedin' onClick={() => clickhandler("mapinactive")}>Kartvy parkerade</button>
-                    </li>
-                    <li className='menuitemsloggedin'>
-                    <button className='buttonifloggedin' onClick={() => clickhandler("stations")}>Laddstationer</button>
                     </li>
                     <li className='menuitemsloggedin'>
                     <button className='buttonifloggedin' onClick={() => clickhandler("status")}>Statuskontroll</button>
@@ -76,11 +71,11 @@ export default function Admin({token, user, role}) {
                 <h1 className='cityname'>Administratör - {city.stad} (Aktiva)</h1>
                 <div className='boxes'>
                     {city.stad === "Visby" ? 
-                    <Map center={centervisby} city={city.stad} bikes={bikes} setBikes={setBikes} cityID={cityID}/> 
+                    <Map center={centervisby} city={city.stad} cityID={cityID}/> 
                     : city.stad === "Borlänge" ?
-                    <Map center={centerborlange} city={city.stad} bikes={bikes} setBikes={setBikes} cityID={cityID}/> 
+                    <Map center={centerborlange} city={city.stad} cityID={cityID}/> 
                     : city.stad === "Lund" ? 
-                    <Map center={centerlund} city={city.stad} bikes={bikes} setBikes={setBikes} cityID={cityID}/> : null}
+                    <Map center={centerlund} city={city.stad} cityID={cityID}/> : null}
                     
                     <div className='besidemap'> 
                     </div>
@@ -90,19 +85,19 @@ export default function Admin({token, user, role}) {
             <>
             <h1 className='cityname'>Administratör - {city.stad} (Inaktiva)</h1>
                 <div className='boxes'>
-                {city.stad === "Visby" ? 
-                <MapIn center={centervisby} city={city.stad} bikes={bikes} setBikes={setBikes} cityID={cityID}/> 
-                : city.stad === "Borlänge" ?
-                <MapIn center={centerborlange} city={city.stad} bikes={bikes} setBikes={setBikes} cityID={cityID}/> 
-                : city.stad === "Lund" ? 
-                <MapIn center={centerlund} city={city.stad} bikes={bikes} setBikes={setBikes} cityID={cityID}/> : null}
-                
-                <div className='besidemap'> 
+                    {city.stad === "Visby" ? 
+                    <MapIn center={centervisby} city={city.stad} cityID={cityID}/> 
+                    : city.stad === "Borlänge" ?
+                    <MapIn center={centerborlange} city={city.stad} cityID={cityID}/> 
+                    : city.stad === "Lund" ? 
+                    <MapIn center={centerlund} city={city.stad} cityID={cityID}/> : null}
                 </div>
-            </div>
             </>
         : comp === "status" ?
-            <p>status</p>
+                <>
+                <h1 className='cityname'>Administratör - {city.stad} (Statuskontroll)</h1>
+                <StatusCheck city={city.stad} cityID={cityID}/>
+                </>
             : null}
         </div>
         </div>
