@@ -9,21 +9,26 @@ export default function StatusCheck({city, cityID}) {
     const [selectedBike, setSelectedBike] = useState(null);
     const [status, setStatus] = useState(null);
     const [savedStatus, setsavedStatus] = useState(null);
-    const [savedUpdate, setsavedUpdate] = useState(null);
     const selectedBikeFix = useRef(null);
     const updatedOne = useRef(null);
 
     useEffect(() => {
         selectedBikeFix.current = null;
         setBikes("No active bikes in this city")
+        updateBikes()
+    }, [])
+
+    function updateBikes(){
         bikesModel.getAllBikesCity(cityID.current).then(function(result){
             setBikes(result);
             setStatus(result)
         })
-    }, [])
+    }
 
     function statusGenerator(value) {
         selectedBikeFix.current = null;
+        updatedOne.current = null;
+        setSelectedBike(null)
         setSelectedOption(value)
         if (value === "Alla") {
             setStatus(bikes)
@@ -75,10 +80,9 @@ export default function StatusCheck({city, cityID}) {
         updatedOne.current = null;
         statusGenerator(value)
         setSelectedBike(null)
-        updatedOne.current = null;
     }
 
-    function updateOne(value){
+    function updateOne(){
         updatedOne.current = "updated";
         setSelectedBike(null)
     }
@@ -91,14 +95,12 @@ export default function StatusCheck({city, cityID}) {
         let charging = document.getElementById("charging").value;
         let battery = document.getElementById("battery").value;
         bikesModel.updateOneBike(id, name, cityid, works, charging, battery).then(function(result){
-            console.log(result)
+            updateBikes()
+            statusGenerator(savedStatus)
         })
     }
 
     function changeHandler(event) {
-        let newObject = {};
-        newObject[event.target.id] = event.target.value;
-        setsavedUpdate({...saveUpdate, ...newObject});
     }
 
     return (

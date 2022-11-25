@@ -13,6 +13,18 @@ const containerStyle = {
     height: '800px',
 };
 
+const optionPoly = {
+    fillOpacity: 0,
+    strokeColor: "black",
+    strokeOpacity: 1,
+    strokeWeight: 2,
+    clickable: false,
+    draggable: false,
+    editable: false,
+    geodesic: false,
+    zIndex: 1
+}
+
 export default function MapCityIn({center, city, cityID}){
     const [mainZone, setMainZone] = useState("");
     const [parkingPoints, setParkingPoints] = useState("");
@@ -26,32 +38,18 @@ export default function MapCityIn({center, city, cityID}){
     });
 
     useEffect(() => {
-        setBikes("No active bikes in this city")
+        setBikes("No inactive bikes in this city")
+        updateZoneMain()
+    }, [city, cityID])
+
+    function updateZoneMain(){
         bikesModel.getCityZones().then(function(result){
             result.forEach((place) => {
                 if (place.name === city) {
                     cityID.current = place._id;
-                    bikesModel.getAllInActiveBikes(cityID.current).then(function(result){
-                        setBikes(result);
-                    })
-                    bikesModel.getAllChargingZones().then(function(result){
-                        let array = [];
-                        result.forEach((result) => {
-                            if (result.inCity === place._id){
-                                array.push(result)
-                            }
-                        })
-                        setChargingPoints(array);
-                    })
-                    bikesModel.getAllParkingZones().then(function(result){
-                        let arraytwo = [];
-                        result.forEach((result) => {
-                            if (result.inCity === place._id){
-                                arraytwo.push(result)
-                            }
-                        })
-                        setParkingPoints(arraytwo);
-                    })
+                    updateBikes(place)
+                    updateZoneCharging(place)
+                    updateZoneParking(place)
                     let coordinatesArray = [];
                     place.location.coordinates[0].forEach((value) => {
                         coordinatesArray.push({lat:parseFloat(value[1]), lng:parseFloat(value[0])} )
@@ -60,7 +58,37 @@ export default function MapCityIn({center, city, cityID}){
                 }
             })
         })
-    }, [])
+    }
+
+    function updateBikes(place){
+        bikesModel.getAllInActiveBikes(cityID.current).then(function(result){
+            setBikes(result);
+        })
+    }
+
+    function updateZoneCharging(place){
+        bikesModel.getAllChargingZones().then(function(result){
+            let array = [];
+            result.forEach((result) => {
+                if (result.inCity === place._id){
+                    array.push(result)
+                }
+            })
+            setChargingPoints(array);
+        })
+    }
+
+    function updateZoneParking(place){
+        bikesModel.getAllParkingZones().then(function(result){
+            let arraytwo = [];
+            result.forEach((result) => {
+                if (result.inCity === place._id){
+                    arraytwo.push(result)
+                }
+            })
+            setParkingPoints(arraytwo);
+        })
+    }
 
     if (loadError) return "Error loading maps";
     if (!isLoaded) return <TailSpin stroke="#d4b242" style={{ marginLeft: '47%', marginTop: "20%" }}/>;
@@ -74,20 +102,10 @@ return (
             >
             <PolygonF
             path={mainZone}
-            options={{
-                fillOpacity: 0,
-                strokeColor: "black",
-                strokeOpacity: 1,
-                strokeWeight: 2,
-                clickable: false,
-                draggable: false,
-                editable: false,
-                geodesic: false,
-                zIndex: 1
-            }}
+            options={optionPoly}
             />
                 <>
-                {bikes === "No active bikes in this city" ?
+                {bikes === "No inactive bikes in this city" ?
                     <>
                     </>
                     : bikes &&

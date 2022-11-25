@@ -78,7 +78,7 @@ const bikesModel = {
         const requestOptions = {
             method: 'PUT',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ name: name, cityid: cityid, works: works, charging: charging, battery: battery })
+            body: JSON.stringify({ name: name, inCity: cityid, works: works, charging: charging, batterylevel: battery })
         };
         const result = fetch(`${baseURL}/v1/bikes/${id}`, requestOptions)
             .then(response => response.json())
