@@ -4,12 +4,13 @@ import {NavLink}  from 'react-router-dom';
 
 import image from "./logo.png";
 
-import { AiOutlineMenu} from 'react-icons/ai';
-import { FiLogOut } from "react-icons/fi";
+import { AiOutlineMenu, AiOutlineUser, AiFillHome, AiFillInfoCircle} from 'react-icons/ai';
+import { MdVerifiedUser } from "react-icons/md";
+import { FiLogOut, FiLogIn } from "react-icons/fi";
+
 
 export default function Navbar({setToken, token, setUserId, setUserRole, role, user}) {
   const [click, setClick] = useState(false);
-  //const userID = useRef("")
 
   async function logout() {
     setToken("")
@@ -20,6 +21,7 @@ export default function Navbar({setToken, token, setUserId, setUserRole, role, u
 
   const handleClick = () => setClick(!click);
   const Close = () => setClick(false);
+  console.log(role)
   
   return (
     <div className='header'>
@@ -38,7 +40,7 @@ export default function Navbar({setToken, token, setUserId, setUserRole, role, u
                 className="nav-links"
                 onClick={click ? handleClick : null}
               >
-                <a className='navfont'>Hem</a>
+                <a className='navfont'><AiFillHome size={24}/></a>
               </NavLink>
             </li>
             <li className="nav-item">
@@ -49,11 +51,13 @@ export default function Navbar({setToken, token, setUserId, setUserRole, role, u
                 className="nav-links"
                 onClick={click ? handleClick : null}
               >
-                <a className='navfont'>Om</a>
+                <a className='navfont'><AiFillInfoCircle size={24}/></a>
               </NavLink>
             </li>
-            {user !== "" ? (
-            <li className="nav-item">
+            {user !== "" ? 
+            <>
+                { role === "admin" ?
+                <li className="nav-item">
               <NavLink
                 exact
                 to="/anvandare"
@@ -61,10 +65,22 @@ export default function Navbar({setToken, token, setUserId, setUserRole, role, u
                 className="nav-links"
                 onClick={click ? handleClick : null}
               >
-                <a className='navfont'>Användare</a>
+                <a className='navfont'><MdVerifiedUser size={24}/></a>
               </NavLink>
               </li>
-            ) : 
+              : role === "user" ?
+              <li className="nav-item">
+              <NavLink
+                exact
+                to="/anvandare"
+                activeClassName="active"
+                className="nav-links"
+                onClick={click ? handleClick : null}
+              >
+                <a className='navfont'>< AiOutlineUser size={24}/></a>
+              </NavLink>
+              </li> :null}
+              </>  :
             <li className="nav-item">
             <NavLink
               exact
@@ -73,7 +89,7 @@ export default function Navbar({setToken, token, setUserId, setUserRole, role, u
               className="nav-links"
               onClick={click ? handleClick : null}
             >
-              <a className='navfont'>Logga in</a>
+              <a className='navfont'><FiLogIn size={24}/></a>
             </NavLink>
           </li>}
             {token !== "" ? (
@@ -85,13 +101,13 @@ export default function Navbar({setToken, token, setUserId, setUserRole, role, u
                   className="nav-links"
                   onClick={logout}
                 >
-                  <FiLogOut/>
+                  <FiLogOut size={24}/>
                 </NavLink>
               </li>
-            ) : null}
+            ): null}
           </ul>
           <div className="nav-icon" onClick={handleClick}>
-            <i className={click ? "fa fa-times" : "fa fa-bars"}><AiOutlineMenu></AiOutlineMenu></i>
+            <i className={click ? "fa fa-times" : "fa fa-bars"}><AiOutlineMenu size={24}/></i>
           </div>
         </div>
       </nav>

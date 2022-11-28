@@ -2,9 +2,9 @@ import React from 'react';
 import {useState, useEffect, useRef} from 'react';
 import { useParams } from "react-router-dom";
 
-import Map from './map.js';
-import MapIn from './mapinactive.js';
-import StatusCheck from './statuscheck.js';
+import Map from '../../components/admin/map';
+import MapIn from '../../components/admin/mapinactive';
+import StatusCheck from '../../components/admin/statuscheck.js';
 
 //Cities location and zones
 const centervisby = {

@@ -2,7 +2,7 @@ import React from 'react';
 import {useState, useEffect} from 'react';
 import {Routes, Route, useNavigate} from 'react-router-dom';
 
-import image1 from "./images/home.png";
+import image1 from "../components/images/home.png";
 
 
 export default function Home() {
