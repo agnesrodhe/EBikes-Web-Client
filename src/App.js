@@ -4,11 +4,11 @@ import { useState} from 'react';
 import Navbar from './components/navbar/Navbar';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Home from './routes';
-import Client from './routes/admin/client';
+import Client from './components/admin/client';
 import Registrera from './routes/signup';
 import Signin from './routes/signin';
 import User from './routes/client/user';
-import UserCash from './routes/client/usercash';
+import UserCash from './components/user/usercash';
 import Admin from './routes/admin/admin';
 
 function App() {
@@ -18,7 +18,7 @@ function App() {
   return (
     <div className='main'>
       <Router>
-      <Navbar setToken={setToken} token={token} setUserId={setUserId} user={user}/>
+      <Navbar setToken={setToken} token={token} setUserId={setUserId} user={user} role={role}/>
         <Routes>
           <Route path='/' exact element={<Home />} />
           <Route path='/om' exact element={<Home />} />

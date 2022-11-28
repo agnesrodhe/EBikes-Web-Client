@@ -1,11 +1,10 @@
 import React from 'react';
-import Login from '../components/Login';
+import StartRegister from '../components/signup/index';
 
 export default function Signup({setToken, token, setUserId, setUserRole}) {
   return (
     <div  className='body'>
-        <p>Ändra vid oauth</p>
-    <Login setToken={setToken} setUserId={setUserId} setUserRole={setUserRole} />
+    <StartRegister setToken={setToken} setUserId={setUserId} setUserRole={setUserRole} />
       </div>
   );
 };

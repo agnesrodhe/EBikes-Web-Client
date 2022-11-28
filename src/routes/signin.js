@@ -1,5 +1,5 @@
 import React from 'react';
-import Login from '../components/Login';
+import Start from '../components/signin/index';
 
 export default function Signin({setToken, token, setUserId, setUserRole}) {
   return (
@@ -8,7 +8,7 @@ export default function Signin({setToken, token, setUserId, setUserRole}) {
         <div>
       </div>
     :
-    <Login setToken={setToken} setUserId={setUserId} setUserRole={setUserRole} />}
+    <Start setToken={setToken} setUserId={setUserId} setUserRole={setUserRole} />}
       </div>
   );
 };
