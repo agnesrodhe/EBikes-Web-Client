@@ -1,9 +1,35 @@
 import React from 'react';
-import {NavLink}  from 'react-router-dom';
+import { useState } from 'react';
+import {NavLink, useNavigate}  from 'react-router-dom';
 
-import { GrGoogle } from "react-icons/gr";
+import userModel from '../../models/users.js';
 
-export default function InSigner({setToken, token, setUserId, setUserRole}) {
+export default function InSigner({setToken, token, setUserId, setUserRole, user}) {
+    const [newUser, setNewUser] = useState("")
+    const [errorCatcher, seterrorCatcher] = useState(false)
+    const navigate = useNavigate();
+
+    function changeHandler(event) {
+        let newObject = {};
+        newObject[event.target.name] = event.target.value;
+        setNewUser({...newUser, ...newObject});
+    }
+
+    async function login() {
+        await userModel.login(newUser).then(function(res){
+            console.log(res)
+            if (res.error) {
+                seterrorCatcher(true)
+            } else if (res.token) {
+                seterrorCatcher(false)
+                setToken(res.token);
+                setUserId(res._id);
+                setUserRole(res.role);
+                navigate('/anvandare');
+            }
+        })
+    }
+
     return (
         <div  className='body'>
             <div className='bodylogin'>
@@ -11,17 +37,16 @@ export default function InSigner({setToken, token, setUserId, setUserRole}) {
                     <h3 className='welcometext'>Välkommen tillbaka</h3>
                     <div className='containerlogin'>
                         <div className='inputlogin'>
+                        {errorCatcher ? <span className='spanregister'>Felaktigt lösenord eller email. Försök igen.</span> :null}
                             <div className='inputcontainer'>
-                                <label>EMAIL</label>
-                                <input placeholder='ange din mail' type="email"></input>
+                                <label>ANVÄNDARE</label>
+                                <input onChange={event => changeHandler(event)} placeholder='ange ditt användarnamn' type="username" name="username"></input>
                             </div>
                             <div className='inputcontainer'>
                                 <label>LÖSENORD</label>
-                                <input placeholder='ange ditt lösenord' type="password"></input>
+                                <input onChange={event => changeHandler(event)} placeholder='ange ditt lösenord' type="password" name="password"></input>
                             </div>
-                            <button className='loginbutton'>LOGGA IN</button>
-                            <span className='spanlogin'>eller</span>
-                            <button className='loginbuttongoogle'><i><GrGoogle size={11}/></i> Logga in med google</button>
+                            <button onClick={() => login()} className='loginbutton'>LOGGA IN</button>
                         </div>
                     </div>
                     <div className='registerspan'>

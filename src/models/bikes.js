@@ -23,8 +23,10 @@ const bikesModel = {
     },
     getAllActiveBikes: async function getAllActiveBikes(cityID) {
         try {
+            console.log(cityID)
             const response = await fetch(`${baseURL}/v1/bikes/city/${cityID}/active`);
             const result = await response.json();
+            console.log(result)
             if (Object.values(result).indexOf('No active bikes in this city') > -1) {
                 return 'No active bikes in this city'
             } else {
@@ -38,8 +40,8 @@ const bikesModel = {
         try {
             const response = await fetch(`${baseURL}/v1/bikes/city/${cityID}/nonActive`);
             const result = await response.json();
-            if (Object.values(result).indexOf('No nonActive bikes in this city') > -1) {
-                return 'No nonActive bikes in this city'
+            if (Object.values(result).indexOf('Only active bikes in this city') > -1) {
+                return 'Only active bikes in this city'
             } else {
                 return result;
             }

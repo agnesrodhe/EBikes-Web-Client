@@ -33,17 +33,26 @@ export default function StatusCheck({city, cityID}) {
         if (value === "Alla") {
             setStatus(bikes)
         } else if (value === "Aktiva") {
-            bikesModel.getAllActiveBikes(cityID.current).then(function(result){
-                setStatus(result);
+            let array = [];
+            bikes.forEach((value) => {
+                if (value.active !== null) {
+                    array.push(value)
+                }
+                console.log(array)
+                setStatus(array)
             })
         } else if (value === "Parkerade") {
-            bikesModel.getAllInActiveBikes(cityID.current).then(function(result){
-                setStatus(result);
+            let array = [];
+            bikes.forEach((value) => {
+                if (value.parked !== null) {
+                    array.push(value)
+                }
+                setStatus(array)
             })
         } else if (value === "Laddande") {
             let array = [];
             bikes.forEach((value) => {
-                if (value.charging === true) {
+                if (value.charging !== null) {
                     array.push(value)
                 }
                 setStatus(array)
@@ -51,15 +60,17 @@ export default function StatusCheck({city, cityID}) {
         } else if (value === "Behöver laddas") {
             let array = [];
             bikes.forEach((value) => {
-                if (value.batterylevel < 11) {
+                console.log(value.status)
+                if (value.status === "noBattery" && value.charging === null) {
                     array.push(value)
                 }
+                console.log(array)
                 setStatus(array)
             })
         } else if (value === "Behöver service") {
             let array = [];
             bikes.forEach((value) => {
-                if (value.works === false) {
+                if (value.status === "needService") {
                     array.push(value)
                 }
                 setStatus(array)
@@ -129,9 +140,10 @@ export default function StatusCheck({city, cityID}) {
                                 <tr>
                                     <th>ID:</th>
                                     <th>Namn:</th>
-                                    <th>Fungerar:</th>
-                                    <th>Aktiv:</th>
+                                    <th>Statuskod:</th>
+                                    <th>Aktiv (kund id):</th>
                                     <th>Laddar:</th>
+                                    <th>Parkerad:</th>
                                     <th>Batterinivå:</th>
                                     {selectedBikeFix.current !== null ?
                                     <th>Hantering:</th>
@@ -144,9 +156,10 @@ export default function StatusCheck({city, cityID}) {
                                             <tr>
                                             <td>{value._id}</td>
                                             <td>{value.name}</td>
-                                            <td>{value.works.toString()}</td>
-                                            <td>{value.active.toString()}</td>
-                                            <td>{value.charging.toString()}</td>
+                                            <td>{value.status}</td>
+                                            {value.active !== null ? <td>{value.active}</td> :<td>Inte aktiv</td>}
+                                            {value.charging !== null ? <td>Ja</td> : <td>Nej</td>}
+                                            {value.parked !== null ? <td>Ja</td> :<td>Nej</td>}
                                             <td>{value.batterylevel.toString()}%</td>
                                             {selectedBikeFix.current !== null ?
                                             <button className='buttononselect' onClick={() =>{updateOne(value)}}>Uppdatera</button>
@@ -192,7 +205,7 @@ export default function StatusCheck({city, cityID}) {
                             </>
                             : null}
                             {updatedOne.current === "updated" ? 
-                            <div className='infobox'>
+                            <div className='updatebox'>
                                 <h2>Uppdatera elsparkcykel: {status[0].name}</h2>
                                 <div>   
                                     <p className='infoname'>ID (kan ej ändras):</p>

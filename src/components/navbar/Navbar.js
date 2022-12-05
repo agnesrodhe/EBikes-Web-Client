@@ -68,7 +68,7 @@ export default function Navbar({setToken, token, setUserId, setUserRole, role, u
                 <a className='navfont'><MdVerifiedUser size={24}/></a>
               </NavLink>
               </li>
-              : role === "user" ?
+              : role === "customer" ?
               <li className="nav-item">
               <NavLink
                 exact

@@ -15,6 +15,7 @@ body {
   max-width: 80%;
   margin-left: 11%;
   display:block;
+  min-height: 60em;
 }
 
 h2, h3 {
@@ -23,6 +24,66 @@ h2, h3 {
   color: #fff;
 }
 
+.footer-section {
+  bottom: 0;
+  width: 100%;
+  background-color:#D7EFE1;
+  min-height: 170px;
+  font-size:15px;
+  line-height:24px;
+}
+
+.footerbox{
+  float: left;
+  width: 33%;
+  margin-top: 0.8em;
+}
+
+.footer-cta {
+border-bottom: 1px solid ;
+height: 30px;
+padding-bottom: 3.8em;
+}
+.cta-text {
+padding-left: 15px;
+}
+.cta-text h4 {
+color: rgb(0, 0, 0);
+font-size: 20px;
+font-weight: 600;
+margin-bottom: 2px;
+}
+.cta-text p {
+color: #000000;
+font-size: 15px;
+text-align: center;
+}
+.copyright-area{
+background: #ffffff;
+padding-bottom: 2em;
+margin-bottom: -2em;
+padding-top: 2em;
+padding-left: 11%;
+}
+.copyright-text p {
+margin: 0;
+font-size: 14px;
+color: #000000;
+}
+.copyright-text p a{
+color:#000000;
+}
+.footer-menu li {
+display: inline-block;
+margin-right: 20px;
+}
+.footer-menu li:hover a{
+color: #008037;
+}
+.footer-menu li a {
+font-size: 14px;
+color: #000000;
+}
 
 .navbar {
   background-color:#ffffff;
@@ -246,8 +307,8 @@ Login and signin
   justify-content: center;
   align-items: center;
   max-width: 60vh;
-  min-height: 45vh;
-  padding-right: 4%;
+  min-height: 40vh;
+  padding-right: 2.3%;
   background-color: #ffffff95;
   border-radius: 0.5rem;
   padding-bottom: 4em;
@@ -296,9 +357,8 @@ Login and signin
 
 .inputcontainer input:hover {
   outline: 2px solid #008037;
-  transition: all 0.25s ease;    
   background:rgb(236, 255, 244);
-  cursor: pointer;
+  cursor:text;
 }
 
 .loginbutton {
@@ -320,23 +380,7 @@ Login and signin
   outline: 2px solid #008037;
 }
 
-.loginbuttongoogle {
-  border: none;
-  width: 107.5%;
-  padding: 15px;
-  border-radius: .5rem;
-  margin-top: 7px;
-  margin-bottom: 7px;
-  background-color: #ffffff;
-  color: #008037;
-}
 
-.loginbuttongoogle:hover {
-  transition: all 0.2s ease 2px;    
-  cursor: pointer;
-  color: #008037;
-  outline: 2px solid #008037;
-}
 
 .spanregister {
   color: #008037;
@@ -356,6 +400,30 @@ Login and signin
 If logged in user
 */
 
+
+.navloggedinuser {
+  height: 35px;
+  width: 116%;
+  margin-left: -7%;
+}
+
+.menuitemsloggedinuser {
+  display: inline-block;
+  width: 31.5%;
+  background-color: rgb(255, 255, 255);
+}
+
+.menuitemsloggedinuser {
+  font-size: 16px;
+  border-bottom: 1px solid #fff;
+  border-right: 1px solid #fff;
+}
+
+.clientname {
+  text-align: center;
+  padding:3%;
+  color: #fff;
+}
 
 /*
 if logged admin
@@ -397,12 +465,38 @@ if logged admin
   color: #fff;
 }
 
+.clientdata {
+  text-align: center;
+  padding:3%;
+  color: rgb(0, 0, 0);
+}
+
+.citynameh2 {
+  text-align: center;
+  padding:3%;
+  color: rgb(0, 0, 0);
+  margin-left: 17%;
+}
+
+.admintitle {
+  text-align: center;
+  padding:3%;
+  color: rgb(0, 0, 0);
+}
+
+.adminindex {
+  background-color: #ffffff;
+  min-height: 60em;
+  margin-bottom: 2em;
+}
+
 .buttoncity {
   margin-top: 10px;
-  width: 20%;
-  background-color:#fff;
-  color: #080710;
-  border-color: rgba(255, 255, 255, 0.05);
+  width: 100%;
+  background-color: #008037;
+  color: #ffffff;
+  border: none;
+  border-radius: .5rem;
   padding: 20px;
   margin-left: 10%;
   font-weight: 600;
@@ -411,24 +505,57 @@ if logged admin
   border-bottom: 2px #00000044 solid;
 }
 .buttoncity:hover{
-  outline: 2px solid rgba(0, 0, 0, 0.353);
+  transition: all 0.25s ease;    
+  background:rgb(255, 255, 255);
+  cursor: pointer;
+  color: #008037;
+  outline: 2px solid #008037;
 }
 
 .buttonclient {
   margin-top: 10px;
-  width: 20%;
-  background-color:#fff;
-  color: #080710;
-  border-color: rgba(255, 255, 255, 0.05);
+  width: 30%;
+  background-color: #008037;
+  color: #ffffff;
+  border: none;
+  border-radius: .5rem;
   padding: 20px;
-  margin-left: 40%;
+  margin-left: 36%;
   font-weight: 600;
   border-radius: 5px;
   cursor: pointer;
   border-bottom: 2px #00000044 solid;
 }
 .buttonclient:hover{
-  outline: 2px solid rgba(0, 0, 0, 0.353);
+  transition: all 0.25s ease;    
+  background:rgb(255, 255, 255);
+  cursor: pointer;
+  color: #008037;
+  outline: 2px solid rgba(238, 189, 55, 0.399);
+}
+
+.citychart {
+  width: 29.4%;
+  display: inline-block;
+  margin-right: 3%;
+}
+
+.chart-wrapper {
+  margin-left: 10%;
+  position: relative;
+  width: 100%;
+}
+
+.customerchart {
+  width: 100%;
+  margin-right: 20%;
+  padding-bottom: 5%;
+}
+
+.chart-wrapper2 {
+  margin-left: 30.5%;
+  position: relative;
+  width: 40%;
 }
 
 /*
@@ -590,6 +717,7 @@ input:hover{
   outline: 5px solid rgba(0, 0, 0, 0.107);
 }
 
+
 .infoname {
   color: rgb(255, 255, 255);
 }
@@ -606,7 +734,6 @@ input:hover{
   border-radius: 5px;
   cursor: pointer;
   border-bottom: 2px #00000044 solid;
-  margin-bottom: 5%;
 }
 .buttonsavedata:hover{
   outline: 2px solid rgba(0, 0, 0, 0.353);
