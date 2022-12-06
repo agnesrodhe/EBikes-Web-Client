@@ -4,7 +4,9 @@ import { GoogleMap, useLoadScript, MarkerF, InfoWindowF, PolygonF } from '@react
 import {TailSpin} from 'react-loading-icons'
 
 import bikesModel from '../../models/bikes.js';
-import image from "../images/scooter.png"
+import imagegreen from "../images/green.png"
+import imagered from "../images/red.png"
+import imagegrey from "../images/grey.png"
 import chargeimage from "../images/charge.png"
 import parkingimage from "../images/parking.png"
 
@@ -13,32 +15,22 @@ const containerStyle = {
     height: '800px',
 };
 
-const optionPoly = {
-    fillOpacity: 0,
-    strokeColor: "black",
-    strokeOpacity: 1,
-    strokeWeight: 2,
-    clickable: false,
-    draggable: false,
-    editable: false,
-    geodesic: false,
-    zIndex: 1
-}
-
 export default function MapCityIn({center, city, cityID}){
     const [mainZone, setMainZone] = useState("");
     const [parkingPoints, setParkingPoints] = useState("");
     const [selectedParkingStation, setSelectedParkingStation] = useState(null);
     const [chargingPoints, setChargingPoints] = useState("");
     const [selectedChargingStation, setSelectedChargingStation] = useState(null);
-    const [bikes, setBikes] = useState("");
+    const [bikesInActive, setBikesInActive] = useState("");
+    const [bikesError, setBikesError] = useState("");
     const [selectedBike, setSelectedBike] = useState(null);
     const { isLoaded, loadError } = useLoadScript({
         googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAPS_API_KEY,
     });
 
     useEffect(() => {
-        setBikes("No inactive bikes in this city")
+        setBikesInActive("No inactive bikes in this city")
+        setBikesError("No bikes with error")
         updateZoneMain()
     }, [city, cityID])
 
@@ -47,7 +39,7 @@ export default function MapCityIn({center, city, cityID}){
             result.forEach((place) => {
                 if (place.name === city) {
                     cityID.current = place._id;
-                    updateBikes(place)
+                    updateInActiveBikes()
                     updateZoneCharging(place)
                     updateZoneParking(place)
                     let coordinatesArray = [];
@@ -60,9 +52,19 @@ export default function MapCityIn({center, city, cityID}){
         })
     }
 
-    function updateBikes(place){
+    function updateInActiveBikes(){
         bikesModel.getAllInActiveBikes(cityID.current).then(function(result){
-            setBikes(result);
+            const working = [];
+            const notworking = [];
+            result.forEach((bike) => {
+                if (bike.status === "working") {
+                    working.push(bike)
+                } else {
+                    notworking.push(bike)
+                }
+            })
+            setBikesInActive(working);
+            setBikesError(notworking);
         })
     }
 
@@ -102,18 +104,46 @@ return (
             >
             <PolygonF
             path={mainZone}
-            options={optionPoly}
+            options={{
+                fillOpacity: 0,
+                strokeColor: "black",
+                strokeOpacity: 1,
+                strokeWeight: 2,
+                clickable: false,
+                draggable: false,
+                editable: false,
+                geodesic: false,
+                zIndex: 1
+            }}
             />
                 <>
-                {bikes === "No inactive bikes in this city" ?
+                {bikesInActive === "No inactive bikes in this city" ?
                     <>
                     </>
-                    : bikes &&
+                    : bikesInActive &&
                     <>
-                    {bikes.map((bike, index) => {
+                    {bikesInActive.map((bike, index) => {
                         return <MarkerF 
                                     key={index} 
-                                    icon={image}
+                                    icon={imagegrey}
+                                    position={{
+                                        lat: bike.location.coordinates[1],
+                                        lng: bike.location.coordinates[0]
+                                    }}
+                                    onClick={() => {setSelectedBike(bike)}}
+                                />
+                    })}
+                    </>
+                }
+                {bikesError === "No bikes with error" ?
+                    <>
+                    </>
+                    : bikesError &&
+                    <>
+                    {bikesError.map((bike, index) => {
+                        return <MarkerF 
+                                    key={index} 
+                                    icon={imagered}
                                     position={{
                                         lat: bike.location.coordinates[1],
                                         lng: bike.location.coordinates[0]
@@ -131,8 +161,26 @@ return (
                         }}
                         onCloseClick={() => {setSelectedBike(null)}}
                     ><>
-                        <p>{selectedBike.name}</p>
+                        <p>Namn: {selectedBike.name}</p>
+                        <p>ID: {selectedBike._id}</p>
+                        <p>Status: {selectedBike.status}</p>
                         <p>Batterinivå: {selectedBike.batterylevel}%</p>
+                        {selectedBike.parked !== null ?<p><b>Parkerad</b></p>:null}
+                        {selectedBike.charging !== null ?<p><b>Laddar</b></p>:null}
+                        {selectedBike.active !== null ?<p><b>Uthyrd</b></p>:null}
+                        {selectedBike.active === null ?
+                        <>
+                        {selectedBike.charging === null ?
+                        <>
+                        {selectedBike.parked === null ? 
+                        <>
+                        <p><b>Felparkerad</b></p>
+                        </>
+                        :null}
+                        </>
+                        :null}
+                        </>
+                        :null}
                     </>
                     </InfoWindowF>
                 </> : null}
@@ -160,7 +208,6 @@ return (
                         onCloseClick={() => {setSelectedChargingStation(null)}}
                     ><>
                         <p>{selectedChargingStation.name}</p>
-                        <p>Antal laddande cyklar: {selectedChargingStation.bikes.length}</p>
                     </>
                     </InfoWindowF>
                 </> : null}
@@ -188,7 +235,6 @@ return (
                         onCloseClick={() => {setSelectedParkingStation(null)}}
                     ><>
                         <p>{selectedParkingStation.name}</p>
-                        <p>Antal parkerade cyklar: {selectedParkingStation.bikes.length}</p>
                     </>
                     </InfoWindowF>
                 </> : null}

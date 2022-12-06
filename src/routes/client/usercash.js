@@ -7,7 +7,10 @@ export default function UserCash({token, user, role}) {
         <div>
             <p>Saldo</p>
       </div>
-    : <h1 className='cityname'>Oops... Har du gått vilse?</h1>}
+        : 
+        <div className='body'>
+            <h1 className='cityname'>Oops... Har du gått vilse?</h1>
+        </div>}
       </div>
   );
 };

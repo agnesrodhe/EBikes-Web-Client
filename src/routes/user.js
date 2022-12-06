@@ -2,21 +2,37 @@ import React from 'react';
 import {useState, useEffect} from 'react';
 import {Routes, Route, useNavigate} from 'react-router-dom';
 
+import Client from '../components/user/client.js';
+import AdminIndex from './admin/adminindex.js';
+
 
 export default function User({token, user, role}) {
     const [ extraSection, setExtraSection ] = useState(null);
+    const [comp, setComponent] = useState("")
     const navigate = useNavigate();
 
     //Update and set documents as initial stage.
     useEffect(() => {
+        clickhandler("userdata")
         addSection(role)
     }, []);
+
+    //To render one-page
+    async function clickhandler(value) {
+        if (value === "userdata"){
+            setComponent("userdata")
+        } else if (value === "saldo"){
+            setComponent("saldo")
+        } else if (value === "history"){
+            setComponent("history")
+        }
+    };
 
     async function addSection(value) {
         if (value === "admin") {
             setExtraSection("admin");
-        } else if (value === "user") {
-            setExtraSection("user");
+        } else if (value === "customer") {
+            setExtraSection("customer");
         }
     };
 
@@ -38,19 +54,18 @@ export default function User({token, user, role}) {
                 {token !== "" ?
                     <div>
                     {extraSection === "admin" ?
-                        <div>
-                            <h1 className='cityname'>Administratör</h1>
-                            <button onClick={() => setCity("Kund")} className="buttonclient">Hantera kund</button>
-                            <h2 className='cityname'>Välj stad för att hantera data:</h2>
-                            <button onClick={() => setCity("Visby")} className="buttoncity">Visby</button>
-                            <button onClick={() => setCity("Borlänge")} className="buttoncity">Borlänge</button>
-                            <button onClick={() => setCity("Lund")} className="buttoncity">Lund</button>
-                        </div>
-                    : extraSection === "user" ? 
-                        <h1 className='cityname'>Ditt konto</h1>
-                    : <h1 className='cityname'>Oops... Har du gått vilse?</h1>}
+                        <AdminIndex/>
+                    : extraSection === "customer" ? 
+                        <Client role={role} token={token} user={user}/>
+                        : 
+                        <div className='body'>
+                            <h1 className='cityname'>Oops... Har du gått vilse?</h1>
+                        </div>}
                     </div>
-                    : <h1 className='cityname'>Oops... Har du gått vilse?</h1>}
+                : 
+                <div className='body'>
+                    <h1 className='cityname'>Oops... Har du gått vilse?</h1>
+                </div>}
             </div>
         </div>
     );

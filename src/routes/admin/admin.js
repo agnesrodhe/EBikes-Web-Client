@@ -13,8 +13,8 @@ const centervisby = {
 };
 
 const centerborlange = {
-    lat: 60.4824,
-    lng: 15.4463
+    lat: 60.4841,
+    lng: 15.418
 };
 
 const centerlund = {
@@ -50,21 +50,21 @@ export default function Admin({token, user, role}) {
         {role === "admin" ?
         <div className='body'>
                 <div className='navloggedin'>
-                <ul className='navloggedin'>
-                    <li className='menuitemsloggedin'>
-                    <button className='buttonifloggedin' onClick={() => clickhandler("map")}>Livevy aktiva</button>
-                    </li>
-                    <li className='menuitemsloggedin'>
-                    <button className='buttonifloggedin' onClick={() => clickhandler("mapinactive")}>Kartvy parkerade</button>
-                    </li>
-                    <li className='menuitemsloggedin'>
-                    <button className='buttonifloggedin' onClick={() => clickhandler("status")}>Statuskontroll</button>
-                    </li>
-                    <li className='menuitemsloggedin'>
-                    <button className='buttonifloggedin' onClick={() => clickhandler("moveviecles")}>Förflytta fordon</button>
-                    </li>
-                </ul>
-            </div>
+                    <ul className='navloggedin'>
+                        <li className='menuitemsloggedin'>
+                        <button className='buttonifloggedin' onClick={() => clickhandler("map")}>Livevy aktiva</button>
+                        </li>
+                        <li className='menuitemsloggedin'>
+                        <button className='buttonifloggedin' onClick={() => clickhandler("mapinactive")}>Kartvy parkerade</button>
+                        </li>
+                        <li className='menuitemsloggedin'>
+                        <button className='buttonifloggedin' onClick={() => clickhandler("status")}>Statuskontroll</button>
+                        </li>
+                        <li className='menuitemsloggedin'>
+                        <button className='buttonifloggedin' onClick={() => clickhandler("moveviecles")}>Förflytta fordon</button>
+                        </li>
+                    </ul>
+                </div>
         <div className='kit'>
             {comp === "map" ?
             <>
@@ -101,7 +101,10 @@ export default function Admin({token, user, role}) {
             : null}
         </div>
         </div>
-        : <h1 className='cityname'>Oops... Har du gått vilse?</h1>}
+        : 
+        <div className='body'>
+            <h1 className='cityname'>Oops... Har du gått vilse?</h1>
+        </div>}
         </div>
     );
 };

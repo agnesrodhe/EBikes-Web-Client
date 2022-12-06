@@ -7,7 +7,10 @@ export default function Client({token, user, role}) {
         <div>
             <p>Kunddata</p>
       </div>
-    : <h1 className='cityname'>Oops... Har du gått vilse?</h1>}
+        : 
+        <div className='body'>
+            <h1 className='cityname'>Oops... Har du gått vilse?</h1>
+        </div>}
       </div>
   );
 };
