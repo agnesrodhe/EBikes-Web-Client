@@ -1,6 +1,7 @@
 import React from 'react';
 import { useState } from 'react';
 import {NavLink, useNavigate}  from 'react-router-dom';
+import Cookies from 'js-cookie';
 
 import userModel from '../../models/users.js';
 
@@ -17,7 +18,7 @@ export default function InSigner({setToken, token, setUserId, setUserRole, user}
 
     async function login() {
         await userModel.login(newUser).then(function(res){
-            console.log(res)
+            console.log(Cookies.get('github-jwt'))
             if (res.error) {
                 seterrorCatcher(true)
             } else if (res.token) {

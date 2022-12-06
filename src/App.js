@@ -10,7 +10,9 @@ import Registrera from './routes/signup';
 import Signin from './routes/signin';
 import User from './routes/user';
 import UserCash from './routes/client/usercash';
-import Admin from './routes/admin/admin';
+import Admin from './routes/admin/admincity';
+import Admindata from './routes/admin/admindata';
+import Prices from './routes/admin/prices';
 
 function App() {
   const [token, setToken] = useState("");
@@ -29,6 +31,8 @@ function App() {
             <Route path='/registrera' exact element={<Registrera />} />
             <Route path='/loggain' element={<Signin setToken={setToken} token={token} setUserId={setUserId} user={user} role={role} setUserRole={setUserRole}/>} />
             <Route path='/anvandare' element={<User token={token} user={user} role={role}/>} />
+            <Route path='/anvandare/admindata' element={<Admindata token={token} user={user} role={role}/>} />
+            <Route path='/anvandare/kostnader' element={<Prices token={token} user={user} role={role}/>} />
             <Route path='/anvandare/kund' element={<Client token={token} user={user} role={role}/>} />
             <Route path='/anvandare/saldo' element={<UserCash token={token} user={user} role={role}/>} />
             <Route path='/anvandare/stad/:stad' element={<Admin token={token} user={user} role={role}/>} />
