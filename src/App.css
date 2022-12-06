@@ -474,7 +474,8 @@ if logged admin
 .citynameh2 {
   text-align: center;
   padding:3%;
-  color: rgb(0, 0, 0);
+  color:#000;
+  text-decoration: underline 2px solid rgb(238, 189, 55);
   margin-left: 17%;
 }
 
@@ -488,6 +489,7 @@ if logged admin
   background-color: #ffffff;
   min-height: 60em;
   margin-bottom: 2em;
+  outline: 3px solid rgba(238, 189, 55, 0.399);
 }
 
 .buttoncity {
@@ -557,9 +559,31 @@ if logged admin
   position: relative;
   width: 40%;
 }
+.nav-links-back {
+  background-color: #008037;
+  color: #ffffff;
+  border: none;
+  border-radius: .5rem;
+  padding: 10px;
+  margin-left: 0.5em;
+  margin-top: 0.5em;
+  font-weight: 600;
+  border-radius: 5px;
+  text-decoration: none;
+  cursor: pointer;
+  position:absolute;
+  border-bottom: 2px #00000044 solid;
+}
+.nav-links-back:hover{
+  transition: all 0.25s ease;    
+  background:rgb(255, 255, 255);
+  cursor: pointer;
+  color: #008037;
+  outline: 2px solid rgba(238, 189, 55, 0.399);
+}
 
 /*
-Map
+map.js & mapinactive.js
 */
 
 .boxes {

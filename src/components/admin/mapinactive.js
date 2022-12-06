@@ -4,7 +4,6 @@ import { GoogleMap, useLoadScript, MarkerF, InfoWindowF, PolygonF } from '@react
 import {TailSpin} from 'react-loading-icons'
 
 import bikesModel from '../../models/bikes.js';
-import imagegreen from "../images/green.png"
 import imagered from "../images/red.png"
 import imagegrey from "../images/grey.png"
 import chargeimage from "../images/charge.png"
@@ -32,7 +31,8 @@ export default function MapCityIn({center, city, cityID}){
         setBikesInActive("No inactive bikes in this city")
         setBikesError("No bikes with error")
         updateZoneMain()
-    }, [city, cityID])
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [])
 
     function updateZoneMain(){
         bikesModel.getCityZones().then(function(result){

@@ -21,8 +21,7 @@ export default function Navbar({setToken, token, setUserId, setUserRole, role, u
 
   const handleClick = () => setClick(!click);
   const Close = () => setClick(false);
-  console.log(role)
-  
+
   return (
     <div className='header'>
     <div className={click ? "main-container" : ""}  onClick={()=>Close()} />
@@ -40,7 +39,7 @@ export default function Navbar({setToken, token, setUserId, setUserRole, role, u
                 className="nav-links"
                 onClick={click ? handleClick : null}
               >
-                <a className='navfont'><AiFillHome size={24}/></a>
+                <AiFillHome size={24}/>
               </NavLink>
             </li>
             <li className="nav-item">
@@ -51,7 +50,7 @@ export default function Navbar({setToken, token, setUserId, setUserRole, role, u
                 className="nav-links"
                 onClick={click ? handleClick : null}
               >
-                <a className='navfont'><AiFillInfoCircle size={24}/></a>
+                <AiFillInfoCircle size={24}/>
               </NavLink>
             </li>
             {user !== "" ? 
@@ -65,7 +64,7 @@ export default function Navbar({setToken, token, setUserId, setUserRole, role, u
                 className="nav-links"
                 onClick={click ? handleClick : null}
               >
-                <a className='navfont'><MdVerifiedUser size={24}/></a>
+                <MdVerifiedUser size={24}/>
               </NavLink>
               </li>
               : role === "customer" ?
@@ -77,7 +76,7 @@ export default function Navbar({setToken, token, setUserId, setUserRole, role, u
                 className="nav-links"
                 onClick={click ? handleClick : null}
               >
-                <a className='navfont'>< AiOutlineUser size={24}/></a>
+                < AiOutlineUser size={24}/>
               </NavLink>
               </li> :null}
               </>  :
@@ -89,7 +88,7 @@ export default function Navbar({setToken, token, setUserId, setUserRole, role, u
               className="nav-links"
               onClick={click ? handleClick : null}
             >
-              <a className='navfont'><FiLogIn size={24}/></a>
+              <FiLogIn size={24}/>
             </NavLink>
           </li>}
             {token !== "" ? (

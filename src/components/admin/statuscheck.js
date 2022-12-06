@@ -16,6 +16,7 @@ export default function StatusCheck({city, cityID}) {
         selectedBikeFix.current = null;
         setBikes("No active bikes in this city")
         updateBikes()
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
     function updateBikes(){

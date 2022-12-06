@@ -28,7 +28,8 @@ export default function MapCity({center, city, cityID}){
     useEffect(() => {
         setBikesActive("No active bikes in this city")
         updateActiveBikes()
-    }, [city, cityID])
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [])
 
     function updateActiveBikes(){
         if (mainZone === "") {
