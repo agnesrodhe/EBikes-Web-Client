@@ -1,13 +1,12 @@
 import React from 'react';
 import { useState } from 'react';
 import {NavLink, useNavigate}  from 'react-router-dom';
-import Cookies from 'js-cookie';
 
 import userModel from '../../models/users.js';
 
-export default function InSigner({setToken, token, setUserId, setUserRole, user}) {
+export default function InSigner({setToken, token, setUserId, setUserRole}) {
     const [newUser, setNewUser] = useState("")
-    const [errorCatcher, seterrorCatcher] = useState(false)
+    const [errorMessage, setErrorMessage] = useState("");
     const navigate = useNavigate();
 
     function changeHandler(event) {
@@ -17,18 +16,21 @@ export default function InSigner({setToken, token, setUserId, setUserRole, user}
     }
 
     async function login() {
-        await userModel.login(newUser).then(function(res){
-            console.log(Cookies.get('github-jwt'))
-            if (res.error) {
-                seterrorCatcher(true)
-            } else if (res.token) {
-                seterrorCatcher(false)
-                setToken(res.token);
-                setUserId(res._id);
-                setUserRole(res.role);
+        if (!newUser.hasOwnProperty('username') || !newUser.hasOwnProperty('password')) {
+            setErrorMessage("Vänligen fyll i alla fält.");
+        } else {
+            const login = await userModel.login(newUser);
+            console.log(newUser)
+            if (login === "error") {
+                setErrorMessage("Fel användarnamn eller lösenord");
+            } else if (login.token) {
+                setErrorMessage(false)
+                setToken(login.token);
+                setUserId(login._id);
+                setUserRole(login.role);
                 navigate('/anvandare');
             }
-        })
+        }
     }
 
     return (
@@ -38,7 +40,7 @@ export default function InSigner({setToken, token, setUserId, setUserRole, user}
                     <h3 className='welcometext'>Välkommen tillbaka</h3>
                     <div className='containerlogin'>
                         <div className='inputlogin'>
-                        {errorCatcher ? <span className='spanregister'>Felaktigt lösenord eller email. Försök igen.</span> :null}
+                        {errorMessage && <p style={{color: "red"}}>{errorMessage}</p>}
                             <div className='inputcontainer'>
                                 <label>ANVÄNDARE</label>
                                 <input onChange={event => changeHandler(event)} placeholder='ange ditt användarnamn' type="username" name="username"></input>

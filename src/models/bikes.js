@@ -26,7 +26,6 @@ const bikesModel = {
             console.log(cityID)
             const response = await fetch(`${baseURL}/v1/bikes/city/${cityID}/active`);
             const result = await response.json();
-            console.log(result)
             if (Object.values(result).indexOf('No active bikes in this city') > -1) {
                 return 'No active bikes in this city'
             } else {
@@ -88,7 +87,6 @@ const bikesModel = {
             .catch((error) => {
                 console.log(error)
             });
-            console.log(result)
         return result;
     },
 }

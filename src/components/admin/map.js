@@ -13,6 +13,8 @@ const containerStyle = {
     height: '800px',
 };
 
+const BaseURL = "http://localhost:3002/v1/test/test";
+
 export default function MapCity({center, city, cityID}){
     const [mainZone, setMainZone] = useState("");
     const [parkingPoints, setParkingPoints] = useState("");
@@ -27,19 +29,33 @@ export default function MapCity({center, city, cityID}){
 
     useEffect(() => {
         setBikesActive("No active bikes in this city")
-        updateActiveBikes()
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [])
-
-    function updateActiveBikes(){
         if (mainZone === "") {
             updateZoneMain()
         } else {
-            bikesModel.getAllActiveBikes(cityID.current).then(function(result){
-                setBikesActive(result);
-            })
+            function setter(e) {
+                setBikesActive(e)
+                return
+                }
+                if ('EventSource' in window) {
+                    let source = new EventSource(BaseURL, {withCredentials: true})
+                    source.onmessage = e => {
+                    console.log('onmessage');
+                    console.log(e.data);
+                    setter(e.data)
+                    }
+                    source.addEventListener('ping', e => {
+                    setter(e.data)
+                    });
+                    source.addEventListener('open', function(e) {
+                    console.log("connected")
+                    }, false);
+                    source.addEventListener('error', function(e) {
+                    console.log("error")
+                    }, false);
+                }
         }
-    }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [])
 
     function updateZoneMain(){
         bikesModel.getCityZones().then(function(result){
@@ -48,7 +64,8 @@ export default function MapCity({center, city, cityID}){
                     cityID.current = place._id;
                     updateZoneCharging(place)
                     bikesModel.getAllActiveBikes(cityID.current).then(function(result){
-                        setBikesActive(result);})
+                        setBikesActive(result);
+                    })
                     updateZoneParking(place)
                     let coordinatesArray = [];
                     place.location.coordinates[0].forEach((value) => {
