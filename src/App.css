@@ -24,6 +24,10 @@ h2, h3 {
   color: #fff;
 }
 
+/*
+Footer
+*/
+
 .footer-section {
   bottom: 0;
   width: 100%;
@@ -84,6 +88,10 @@ color: #008037;
 font-size: 14px;
 color: #000000;
 }
+
+/*
+Navbar
+*/
 
 .navbar {
   background-color:#ffffff;
@@ -167,7 +175,6 @@ color: #000000;
   border-bottom: 3px solid transparent;
 }
 
-
 .nav-item {
   line-height: 40px;
   margin-right: 1rem;
@@ -236,6 +243,46 @@ color: #000000;
 Homepage
 */
 
+.videocontainer {
+  position: absolute;
+  top: 40%;
+  left: 41%;
+  min-width: 500px;
+}
+
+.videotitle {
+  position: absolute;
+  color: #fff;
+  text-decoration: overline #FFE39A;
+
+}
+
+.videobutton {
+  position: absolute;
+  margin-top: 4em;
+  width: 72%;
+  color: #008037;
+  background:rgb(255, 255, 255);
+  outline: 2px solid #008037;
+  border-color: rgba(255, 255, 255, 0.05);
+  padding: 23px;
+  font-weight: 600;
+  border-radius: 5px;
+  cursor: pointer;
+  border-bottom: 3px #00000044 solid;
+  font-size: large;
+  text-decoration:none;
+  text-align: center;
+}
+
+.videobutton:hover {
+  transition: all 0.25s ease;    
+  background:#008037;
+  cursor: pointer;
+  color: #ffffff;
+  outline: 2px solid #FFE39A;
+}
+
 .homepicone {
   width: 100%;
   padding-top: 5%;
@@ -257,6 +304,17 @@ Homepage
 }
 .buttonnewclient:hover{
   outline: 2px solid rgba(0, 0, 0, 0.353);
+}
+
+/*
+About
+*/
+
+.video {
+  width: 100%;
+  height: 700px;
+  object-fit: cover;
+  z-index: -80;
 }
 
 

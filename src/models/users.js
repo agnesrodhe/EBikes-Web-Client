@@ -12,7 +12,6 @@ const userModel = {
                     'content-type': 'application/json'
                 },
             });
-            console.log(response)
             const result = await response.json();
             
             return result;
@@ -45,7 +44,21 @@ const userModel = {
                 console.log(error)
             });
         return result
-    }
+    },
+    getUser: async function getUser(userId) {
+        const result = fetch(`${baseURL}/v1/customers/${userId}`, {
+            method: 'GET'
+        })
+            .then((response) => response.json())
+            .then((data) => {
+                return data;
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+
+        return result;
+    },
 }
 
 export default userModel;

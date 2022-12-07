@@ -5,6 +5,7 @@ import './App.css';
 import Navbar from './components/navbar/Navbar';
 import Footer from './components/footer/footer';
 import Home from './routes';
+import About from './routes/about';
 import Client from './routes/admin/handleClient';
 import Registrera from './routes/signup';
 import Signin from './routes/signin';
@@ -27,7 +28,7 @@ function App() {
       <div className='mainbody'>
         <Routes>
             <Route path='/' exact element={<Home />} />
-            <Route path='/om' exact element={<Home />} />
+            <Route path='/om' exact element={<About />} />
             <Route path='/registrera' exact element={<Registrera />} />
             <Route path='/loggain' element={<Signin setToken={setToken} token={token} setUserId={setUserId} user={user} role={role} setUserRole={setUserRole}/>} />
             <Route path='/anvandare' element={<User token={token} user={user} role={role}/>} />

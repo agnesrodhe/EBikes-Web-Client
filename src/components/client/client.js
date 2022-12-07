@@ -1,13 +1,20 @@
 import React from 'react';
 import {useState, useEffect} from 'react';
+import {NavLink}  from 'react-router-dom';
 
+import userModel from '../../models/users.js'
 
 export default function Client({token, user, role}) {
     const [comp, setComponent] = useState("")
+    const [fullUser, setFullUser] = useState("")
 
     //Update and set documents as initial stage.
     useEffect(() => {
         clickhandler("userdata")
+        userModel.getUser(user).then(function(result){
+            setFullUser(result);
+            console.log(result)
+        })
     }, []);
 
     //To render one-page
@@ -37,17 +44,26 @@ export default function Client({token, user, role}) {
                 </ul>
             </div>
             {comp === "userdata" ?
-                <>
-                    <h1 className='cityname'>Mitt konto</h1>
-                </>
+                <div>
+                    <h1 className='cityname'>Välkommen {fullUser.name} </h1>
+                    <div className='adminindex'>
+                        <h1 className='clientdata'>Min sida</h1>
+                    </div>
+                </div>
                 : comp === "saldo" ?
-                <>
-                <h1 className='cityname'>Saldo</h1>
-                </>
+                <div>
+                    <h1 className='cityname'>Välkommen {fullUser.name} </h1>
+                    <div className='adminindex'>
+                        <h1 className='clientdata'>Saldo</h1>
+                    </div>
+                </div>
                 : comp === "history" ?
-                    <>
-                    <h1 className='cityname'>Resehistorik</h1>
-                    </>
+                <div>
+                    <h1 className='cityname'>Välkommen {fullUser.name} </h1>
+                    <div className='adminindex'>
+                        <h1 className='clientdata'>Resehistorik</h1>
+                    </div>
+                </div>
                 : null}
         </div>
     );
