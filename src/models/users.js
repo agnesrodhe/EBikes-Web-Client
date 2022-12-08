@@ -13,10 +13,10 @@ const userModel = {
                 },
             });
             const result = await response.json();
-            
+
             return result;
-        } catch {
-            return "error"
+        } catch (error) {
+            return "error";
         }
     },
     register: async function register(user) {
@@ -28,22 +28,25 @@ const userModel = {
                     'content-type': 'application/json'
                 },
             });
-    
+
             const result = await response.json();
-            
+
             return result;
-        } catch {
-            return "error"
+        } catch (error) {
+            return "error";
         }
     },
     getAllCustomers: async function getAllCustomers() {
-        const result = fetch(`${baseURL}/v1/user/all`)
+        const result = fetch(`${baseURL}/v1/user/all`
+        )
             .then(r => r.json())
-            .then(result => {return result})
+            .then(result => {
+                return result;
+            })
             .catch((error) => {
-                console.log(error)
+                console.log(error);
             });
-        return result
+        return result;
     },
     getUser: async function getUser(userId) {
         const result = fetch(`${baseURL}/v1/customers/${userId}`, {
@@ -59,6 +62,6 @@ const userModel = {
 
         return result;
     },
-}
+};
 
 export default userModel;

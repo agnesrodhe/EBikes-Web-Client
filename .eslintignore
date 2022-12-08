@@ -1,0 +1,9 @@
+src/test/*
+build/*
+.nyc_outpost
+coverage/*
+src/reportWebVitals.js
+src/next.conf.js
+src/models/*
+src/index.js
+src/App.test.js

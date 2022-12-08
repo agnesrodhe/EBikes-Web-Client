@@ -11,5 +11,5 @@ export default function AdminIndex() {
             </div>
         </div>
     );
-};
+}
 
