@@ -7,13 +7,14 @@ import bikesModel from '../../models/bikes.js';
 import imagegreen from "../images/green.png"
 import chargeimage from "../images/charge.png"
 import parkingimage from "../images/parking.png"
+import {useNavigate} from 'react-router-dom';
 
 const containerStyle = {
     width: '100%',
     height: '800px',
 };
 
-const BaseURL = "http://localhost:3002/v1/test/test";
+const BaseURL = "http://localhost:3002/v1/bikes/events/event/";
 
 export default function MapCity({center, city, cityID}){
     const [mainZone, setMainZone] = useState("");
@@ -26,36 +27,56 @@ export default function MapCity({center, city, cityID}){
     const { isLoaded, loadError } = useLoadScript({
         googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAPS_API_KEY,
     });
+    const [close, setClose] = useState(false);
+    const navigate = useNavigate();
+    function navigatereg() {
+        fetch(`${BaseURL}`);
+        setClose(true);
+        navigate('/registrera');
+    }
 
     useEffect(() => {
         setBikesActive("No active bikes in this city")
         if (mainZone === "") {
             updateZoneMain()
-        } else {
-            function setter(e) {
-                setBikesActive(e)
-                return
-                }
-                if ('EventSource' in window) {
-                    let source = new EventSource(BaseURL, {withCredentials: true})
-                    source.onmessage = e => {
-                    console.log('onmessage');
-                    console.log(e.data);
-                    setter(e.data)
+        } 
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [])
+
+    useEffect(() => {
+            if (close !== true) {
+                // if ('EventSource' in window) {
+                    const source = new EventSource(`http://localhost:3002/v1/bikes/events/event/${cityID.current}`, {withCredentials: true});
+                    function setter(e) {
+                        setBikesActive(e)
+                        return () => {
+                            source.close();
+                        };
                     }
-                    source.addEventListener('ping', e => {
-                    setter(e.data)
-                    });
-                    source.addEventListener('open', function(e) {
-                    console.log("connected")
-                    }, false);
-                    source.addEventListener('error', function(e) {
-                    console.log("error")
-                    }, false);
+                    if (close === true) {
+                        source.close()
+                    } else {
+                        source.onmessage = e => {
+                            console.log('onmessage');
+                            console.log(e);
+                            setter(e.data)
+                            }
+                            source.addEventListener('ping', e => {
+                                console.log("Hej")
+                                console.log(JSON.parse(e.data))
+                            setter(JSON.parse(e.data))
+                            });
+                            source.addEventListener('open', function(e) {
+                            console.log("connected")
+                            }, false);
+                            source.addEventListener('error', function(e) {
+                            console.log("error")
+                            }, false);
+                    // }
                 }
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [])
+    }, [bikesActive])
 
     function updateZoneMain(){
         bikesModel.getCityZones().then(function(result){
@@ -232,6 +253,8 @@ return (
                 </> : null}
                 </>
             </GoogleMap>
+            {/* <button onClick={async () => {await fetch(`${BaseURL}`)}}>Stäng</button> */}
+            <button onClick={() => navigatereg()} className='buttonnewclient'>Registrera dig? Klicka här!</button>
     </div>
 )
 }
