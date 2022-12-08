@@ -1,12 +1,12 @@
 import React from 'react';
-import {NavLink, useNavigate}  from 'react-router-dom';
+import {NavLink}  from 'react-router-dom';
 
 import videobike from "../components/video/video.mp4"
-import videohowto from "../components/video/videotoabout.mp4"
+import videohowto from "../components/video/easy2.mp4"
+import laddaner from "../components/images/waving.png";
+
 
 export default function Home() {
-  const navigate = useNavigate();
-
   return (
       <div>
           <video autoPlay loop muted className="video">
@@ -17,10 +17,14 @@ export default function Home() {
           <NavLink exact to="/registrera" className="videobutton"> Registrera dig här</NavLink>
         </div>
         <div className='body'>
-          <video autoPlay loop muted className="video">
+              <img src={laddaner} alt="startimage" className="downloader"></img>
+              <div className='boxaroundvideo'>
+            <video autoPlay loop muted className="videotwo">
               <source src={videohowto} type="video/mp4"/>
             </video>
+            </div>
         </div>
+
     </div>
   );
 };
