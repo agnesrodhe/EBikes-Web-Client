@@ -254,7 +254,23 @@ Homepage
   position: absolute;
   color: #fff;
   text-decoration: overline #FFE39A;
+}
 
+.boxaroundvideo {
+  width: 100%;
+  height: 800px;
+  overflow: hidden;
+  border-radius: 40px;
+  margin-bottom: 8%;
+  margin-top: -4%;
+}
+
+.videotwo {
+  object-fit: cover;
+  width: 100%;
+  height: 100%;
+  position: relative;
+  opacity: 1;
 }
 
 .videobutton {
@@ -304,6 +320,10 @@ Homepage
 }
 .buttonnewclient:hover{
   outline: 2px solid rgba(0, 0, 0, 0.353);
+}
+
+.downloader {
+  width: 100%;
 }
 
 /*

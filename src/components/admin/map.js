@@ -28,12 +28,6 @@ export default function MapCity({center, city, cityID}){
         googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAPS_API_KEY,
     });
     const [close, setClose] = useState(false);
-    const navigate = useNavigate();
-    function navigatereg() {
-        fetch(`${BaseURL}`);
-        setClose(true);
-        navigate('/registrera');
-    }
 
     useEffect(() => {
         setBikesActive("No active bikes in this city")
@@ -44,39 +38,44 @@ export default function MapCity({center, city, cityID}){
     }, [])
 
     useEffect(() => {
-            if (close !== true) {
-                // if ('EventSource' in window) {
-                    const source = new EventSource(`http://localhost:3002/v1/bikes/events/event/${cityID.current}`, {withCredentials: true});
-                    function setter(e) {
-                        setBikesActive(e)
-                        return () => {
-                            source.close();
-                        };
-                    }
-                    if (close === true) {
-                        source.close()
-                    } else {
-                        source.onmessage = e => {
-                            console.log('onmessage');
-                            console.log(e);
-                            setter(e.data)
-                            }
-                            source.addEventListener('ping', e => {
-                                console.log("Hej")
-                                console.log(JSON.parse(e.data))
-                            setter(JSON.parse(e.data))
-                            });
-                            source.addEventListener('open', function(e) {
-                            console.log("connected")
-                            }, false);
-                            source.addEventListener('error', function(e) {
-                            console.log("error")
-                            }, false);
-                    // }
+        if (close !== true) {
+            if ('EventSource' in window) {
+                const source = new EventSource(`http://localhost:3002/v1/bikes/events/event/${cityID.current}`, {withCredentials: true});
+                function setter(e) {
+                    setBikesActive(e)
+                    return
+                    //  () => {
+                    //     source.close();
+                    // };
                 }
+                // if (close === true) {
+                //     source.close()
+                // } else {
+                    // source.onmessage = e => {
+                    //     console.log("hej")
+                    //     setter(e.data)
+                    // }
+                    source.addEventListener('ping', e => {
+                        console.log("Hej")
+                        console.log(JSON.parse(e.data))
+                        setter(JSON.parse(e.data))
+                    });
+                    source.addEventListener('open', function(e) {
+                        console.log("connected")
+                    }, false);
+                    source.addEventListener('error', function(e) {
+                        console.log("error")
+                    }, false);
+                    return () => {
+                        // Remove event listener and close the connection on unmount
+                        // source.removeEventListener("ping");
+                        source.close();
+                    };
+                // }
+            }
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [bikesActive])
+    }, [bikesActive]);
 
     function updateZoneMain(){
         bikesModel.getCityZones().then(function(result){
@@ -177,7 +176,7 @@ return (
                         <p>Namn: {selectedBike.name}</p>
                         <p>ID: {selectedBike._id}</p>
                         <p>Status: {selectedBike.status}</p>
-                        <p>Batterinivå: {selectedBike.batterylevel}%</p>
+                        <p>BatterinivÃ¥: {selectedBike.batterylevel}%</p>
                         {selectedBike.parked !== null ?<p><b>Parkerad</b></p>:null}
                         {selectedBike.charging !== null ?<p><b>Laddar</b></p>:null}
                         {selectedBike.active !== null ?<p><b>Uthyrd</b></p>:null}
@@ -253,8 +252,6 @@ return (
                 </> : null}
                 </>
             </GoogleMap>
-            {/* <button onClick={async () => {await fetch(`${BaseURL}`)}}>Stäng</button> */}
-            <button onClick={() => navigatereg()} className='buttonnewclient'>Registrera dig? Klicka här!</button>
     </div>
 )
 }
