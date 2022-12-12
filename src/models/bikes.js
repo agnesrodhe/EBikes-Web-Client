@@ -75,11 +75,11 @@ const bikesModel = {
             });
         return result
     },
-    updateOneBike: async function updateOneBike(id, name, cityid, works, charging, battery) {
+    updateOneBike: async function updateOneBike(id, value) {
         const requestOptions = {
             method: 'PUT',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ name: name, inCity: cityid, works: works, charging: charging, batterylevel: battery })
+            body: JSON.stringify(value)
         };
         const result = fetch(`${baseURL}/v1/bikes/${id}`, requestOptions)
             .then(response => response.json())
@@ -87,6 +87,7 @@ const bikesModel = {
             .catch((error) => {
                 console.log(error)
             });
+            console.log(result);
         return result;
     },
 }

@@ -1,9 +1,8 @@
 import React from 'react';
-import Client from '../components/client/client.js';
 import AdminIndex from './admin/adminindex.js';
 
 
-export default function User({token, user, role}) {
+export default function User({token, role}) {
     return (
         <div className='body'>
             <div className='kit'>
@@ -12,7 +11,7 @@ export default function User({token, user, role}) {
                         {role === "admin" ?
                             <AdminIndex/>
                             : role === "customer" ?
-                                <Client role={role} token={token} user={user}/>
+                                window.location.replace("http://localhost:3001/")
                                 :
                                 <div className='body'>
                                     <h1 className='cityname'>Oops... Har du gått vilse?</h1>

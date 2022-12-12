@@ -4,6 +4,7 @@ import { useParams } from "react-router-dom";
 
 import Map from '../../components/admin/map';
 import MapIn from '../../components/admin/mapinactive';
+import MoveViecles from '../../components/admin/moveviecles';
 import StatusCheck from '../../components/admin/statuscheck.js';
 
 //Cities location and zones
@@ -114,7 +115,14 @@ export default function Admin({/*token, user,*/ role}) {
                                         </h1>
                                         <StatusCheck city={city.stad} cityID={cityID}/>
                                     </>
-                                    : null}
+                                    : comp === "moveviecles" ?
+                                        <>
+                                            <h1 className='cityname'>
+                                                Administratör - {city.stad} (Förflytta fordon)
+                                            </h1>
+                                            <MoveViecles city={city.stad} cityID={cityID}/>
+                                        </>
+                                        : null}
                     </div>
                 </div>
                 :

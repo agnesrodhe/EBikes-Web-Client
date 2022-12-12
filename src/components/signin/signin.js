@@ -1,6 +1,6 @@
 import React from 'react';
 import { useState } from 'react';
-import {NavLink, useNavigate}  from 'react-router-dom';
+import {useNavigate}  from 'react-router-dom';
 
 import userModel from '../../models/users.js';
 
@@ -63,9 +63,10 @@ export default function InSigner({setToken, setUserId, setUserRole}) {
                     </div>
                     <div className='registerspan'>
                         <span className='spanregister'>Inte registrerad? </span>
-                        <NavLink exact to="/registrera" className="registerbtn">
+                        <button onClick={() => window.location.replace("http://localhost:3001/")}
+                            className="registerbtn">
                         Registrera dig
-                        </NavLink>
+                        </button>
                     </div>
                 </div>
             </div>
