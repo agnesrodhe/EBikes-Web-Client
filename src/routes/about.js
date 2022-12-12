@@ -1,14 +1,12 @@
 import React from 'react';
-import {useNavigate} from 'react-router-dom';
 
 import videobike from "../components/video/girlonbike.mp4";
 import image1 from "../components/images/home.png";
+import image2 from "../components/images/enkelt.png";
 
 export default function About() {
-    const navigate = useNavigate();
-
     function navigatereg() {
-        navigate('/registrera');
+        window.location.replace("http://localhost:3001/");
     }
 
     return (
@@ -25,6 +23,7 @@ export default function About() {
                     </div>
                 </div>
             </div>
+            <img src={image2} alt="startimage" className="homepicone"></img>
         </>
     );
 }

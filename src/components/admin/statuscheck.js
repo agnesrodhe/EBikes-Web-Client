@@ -112,14 +112,20 @@ export default function StatusCheck({city, cityID}) {
 
         let works = document.getElementById("works").value;
 
-        let charging = document.getElementById("charging").value;
-
         let battery = document.getElementById("battery").value;
 
-        bikesModel.updateOneBike(id, name, cityid, works, charging, battery).then(function() {
-            updateBikes();
-            statusGenerator(savedStatus);
-        });
+
+        let value = { name: name,
+            inCity: cityid,
+            status: works,
+            batterylevel: battery,
+            location: status[0].location};
+
+        bikesModel.updateOneBike(id, value)
+            .then(function() {
+                updateBikes();
+                statusGenerator(savedStatus);
+            });
     }
 
     function changeHandler() {
@@ -251,12 +257,19 @@ export default function StatusCheck({city, cityID}) {
                                     <input id="maxspeed" className="updateinput"
                                         defaultValue={status[0].maxspeed} readonly
                                         onChange={changeHandler}/>
-                                    <p className='infoname'>Fungerar (värden: true/false):</p>
+                                    <p className='infoname'>Status:</p>
                                     <input id="works" className="updateinput"
-                                        defaultValue={status[0].works} onChange={changeHandler}/>
-                                    <p className='infoname'>Laddar (värden: true/false):</p>
+                                        defaultValue={status[0].status} onChange={changeHandler}
+                                        readonly/>
+                                    <p className='infoname'>Laddstation:
+                                        (använd fliken förflytta fordon för flytt)</p>
                                     <input id="charging" className="updateinput"
-                                        defaultValue={status[0].charging} onChange={changeHandler}/>
+                                        defaultValue={status[0].charging} onChange={changeHandler}
+                                        readonly/>
+                                    <p className='infoname'>Parkeringsplats:
+                                        (använd fliken förflytta fordon för flytt)</p>
+                                    <input id="parked" className="updateinput"
+                                        defaultValue={status[0].parked} onChange={changeHandler}/>
                                     <p className='infoname'>Batterinivå (värden: positiv siffra):
                                     </p>
                                     <input id="battery" className="updateinput"

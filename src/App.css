@@ -24,6 +24,10 @@ h2, h3 {
   color: #fff;
 }
 
+.h3border {
+  margin-bottom: 5px;
+}
+
 /*
 Footer
 */
@@ -256,13 +260,20 @@ Homepage
   text-decoration: overline #FFE39A;
 }
 
-.boxaroundvideo {
+.changebackgroundbox {
+  background-color: #ddd;
   width: 100%;
+  background-color: #F2B253;
+}
+
+.boxaroundvideo {
+  width: 80%;
   height: 800px;
   overflow: hidden;
   border-radius: 40px;
   margin-bottom: 8%;
   margin-top: -4%;
+  margin-left: 11%;
 }
 
 .videotwo {
@@ -299,6 +310,22 @@ Homepage
   outline: 2px solid #FFE39A;
 }
 
+.downloader {
+  width: 100%;
+}
+
+/*
+About
+*/
+
+.video {
+  width: 100%;
+  height: 700px;
+  object-fit: cover;
+  z-index: -80;
+}
+
+
 .homepicone {
   width: 100%;
   padding-top: 5%;
@@ -315,26 +342,10 @@ Homepage
   border-radius: 5px;
   cursor: pointer;
   border-bottom: 3px #00000044 solid;
-  margin-bottom: 15%;
   font-size: large;
 }
 .buttonnewclient:hover{
   outline: 2px solid rgba(0, 0, 0, 0.353);
-}
-
-.downloader {
-  width: 100%;
-}
-
-/*
-About
-*/
-
-.video {
-  width: 100%;
-  height: 700px;
-  object-fit: cover;
-  z-index: -80;
 }
 
 
@@ -661,7 +672,7 @@ if logged admin
 }
 
 /*
-map.js & mapinactive.js
+map.js & mapinactive.js moveviecles.js
 */
 
 .boxes {
@@ -713,6 +724,58 @@ map.js & mapinactive.js
   width: 100%
 }
 
+.table2 {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+.table2 td, .table2 th {
+  border: 1px solid #ddd;
+  padding: 8px;
+  position: relative;
+}
+
+.table2 tr:nth-child(even){
+  background-color: rgb(255, 255, 255);
+}
+.table2 tr:nth-child(odd){
+  background-color: #D7EFE1;
+}
+
+.table2 tr:hover {
+  background-color: #d4b242;
+  text-align: center;
+}
+
+.table2 th {
+  padding-top: 12px;
+  padding-bottom: 12px;
+  width: 20%;
+  text-align: left;
+  background-color: #282c34;
+  color: white;
+}
+
+.buttonunselect {
+  width: 100%;
+  background-color:rgb(255, 255, 255);
+  color: #080710;
+  border-color: rgba(255, 255, 255, 0.05);
+  margin-top: 10px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  font-weight: 600;
+  border-radius: 5px;
+  cursor: pointer;
+  border-bottom: 2px #00000044 solid;
+  font-size: 13px;
+}
+
+.buttonunselect:hover{
+  outline: 2px solid rgba(0, 0, 0, 0.353);
+}
+
+
 
 /* <select> styles */
 select {
@@ -752,6 +815,7 @@ select option:checked{
 
 h4{
   text-align: center;
+  color: rgba(238, 189, 55, 0.607);
 }
 
 .buttononselect {
@@ -772,6 +836,30 @@ h4{
 .buttononselect:hover{
   outline: 2px solid rgba(0, 0, 0, 0.353);
 }
+
+.buttononmove {
+  width: 49%;
+  background-color:rgb(255, 255, 255);
+  color: #008037;
+  border-color: rgba(255, 255, 255, 0.05);
+  margin-top: 7px;
+  margin-left: 1%;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  font-weight: 600;
+  border-radius: 5px;
+  cursor: pointer;
+  border-bottom: 2px #00000044 solid;
+  border-right: 2px #00000044 solid;
+  font-size: 13px;
+}
+
+.buttononmove:hover{
+  outline: 2px solid rgba(255, 255, 255, 0.05);;
+  color: rgb(0, 0, 0);
+  background-color: #D7EFE1;
+}
+
 
 .tablehistory {
   border-collapse: collapse;
