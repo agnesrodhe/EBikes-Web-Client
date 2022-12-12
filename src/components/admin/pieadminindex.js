@@ -23,19 +23,22 @@ export default function PieAdminIndex() {
     const [countedCustomers, setCountedCustomers] = useState("");
 
     useEffect(() => {
-        updateandsetbikes()
-        clienthandler()
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [])
+        updateandsetbikes();
+        clienthandler();
+        // eslint-disable-next-line
+    }, []);
 
-    function clienthandler(){
+    function clienthandler() {
         userModel.getAllCustomers().then(function(result) {
             let countzerotimes = 0;
+
             let countonetimes = 0;
+
             let countmanytimes = 0;
+
             let countadmin = 0;
+
             result.forEach((customer) => {
-                console.log(customer.role)
                 if (customer.role === "admin") {
                     countadmin = countadmin + 1;
                 } else if (customer.history.length === 0) {
@@ -47,28 +50,28 @@ export default function PieAdminIndex() {
                 }
             });
             setCountedCustomers([countzerotimes, countonetimes, countmanytimes, countadmin]);
-            console.log(countzerotimes, countonetimes, countmanytimes, countadmin)
-        })
+        });
     }
 
-    function updateandsetbikes(){
-        bikesModel.getCityZones().then(function(result){
+    function updateandsetbikes() {
+        bikesModel.getCityZones().then(function(result) {
             result.forEach((place) => {
                 if ("Borlänge" === place.name) {
-                    bikesModel.getAllInActiveBikes(place._id).then(function(result){
+                    bikesModel.getAllInActiveBikes(place._id).then(function(result) {
                         const working = [];
                         const notworking = [];
+
                         if (result === "Only active bikes in this city") {
                             setBikesInActiveBlg(0);
                             setBikesErrorBlg(0);
                         } else {
                             result.forEach((bike) => {
                                 if (bike.status === "working") {
-                                    working.push(bike)
+                                    working.push(bike);
                                 } else {
-                                    notworking.push(bike)
+                                    notworking.push(bike);
                                 }
-                            })
+                            });
                             if (notworking === []) {
                                 setBikesErrorBlg(0);
                             } else {
@@ -80,29 +83,30 @@ export default function PieAdminIndex() {
                                 setBikesInActiveBlg(working.length);
                             }
                         }
-                    })
-                    bikesModel.getAllActiveBikes(place._id).then(function(result){
+                    });
+                    bikesModel.getAllActiveBikes(place._id).then(function(result) {
                         if (result === "No active bikes in this city") {
                             setBikesActiveBlg(0);
                         } else {
                             setBikesActiveBlg(result.length);
                         }
-                    })
+                    });
                 } else if ("Visby" === place.name) {
-                    bikesModel.getAllInActiveBikes(place._id).then(function(result){
+                    bikesModel.getAllInActiveBikes(place._id).then(function(result) {
                         const working = [];
                         const notworking = [];
+
                         if (result === "Only active bikes in this city") {
                             setBikesInActiveVis(0);
                             setBikesErrorVis(0);
                         } else {
                             result.forEach((bike) => {
                                 if (bike.status === "working") {
-                                    working.push(bike)
+                                    working.push(bike);
                                 } else {
-                                    notworking.push(bike)
+                                    notworking.push(bike);
                                 }
-                            })
+                            });
                             if (notworking === []) {
                                 setBikesErrorVis(0);
                             } else {
@@ -114,29 +118,30 @@ export default function PieAdminIndex() {
                                 setBikesInActiveVis(working.length);
                             }
                         }
-                    })
-                    bikesModel.getAllActiveBikes(place._id).then(function(result){
+                    });
+                    bikesModel.getAllActiveBikes(place._id).then(function(result) {
                         if (result === "No active bikes in this city") {
                             setBikesActiveVis(0);
                         } else {
                             setBikesActiveVis(result.length);
                         }
-                    })
+                    });
                 } else if ("Lund" === place.name) {
-                    bikesModel.getAllInActiveBikes(place._id).then(function(result){
+                    bikesModel.getAllInActiveBikes(place._id).then(function(result) {
                         const working = [];
                         const notworking = [];
+
                         if (result === "Only active bikes in this city") {
                             setBikesInActiveLun(0);
                             setBikesErrorLun(0);
                         } else {
                             result.forEach((bike) => {
                                 if (bike.status === "working") {
-                                    working.push(bike)
+                                    working.push(bike);
                                 } else {
-                                    notworking.push(bike)
+                                    notworking.push(bike);
                                 }
-                            })
+                            });
                             if (notworking === []) {
                                 setBikesErrorLun(0);
                             } else {
@@ -148,130 +153,127 @@ export default function PieAdminIndex() {
                                 setBikesInActiveLun(working.length);
                             }
                         }
-                    })
-                    bikesModel.getAllActiveBikes(place._id).then(function(result){
+                    });
+                    bikesModel.getAllActiveBikes(place._id).then(function(result) {
                         if (result === "No active bikes in this city") {
                             setBikesActiveLun(0);
                         } else {
                             setBikesActiveLun(result.length);
                         }
-                    })
+                    });
                 }
-            })
-        })
+            });
+        });
     }
 
     const dataLun = {
         labels: ['Uthyrda', 'Fungerar inte', 'Parkerade'],
         datasets: [
-        {
-            label: '# st',
-            data: [bikesActiveLun, bikesErrorLun, bikesInActiveLun],
-            backgroundColor: [
-            'rgba(75, 192, 192, 0.2)',
-            'rgba(255, 99, 132, 0.2)',
-            'rgba(54, 162, 235, 0.2)',
-            ],
-            borderColor: [
-                'rgba(75, 192, 192, 1)',
-            'rgba(255, 99, 132, 1)',
-            'rgba(54, 162, 235, 1)',
-            ],
-            borderWidth: 1,
-            options: {
-                responsive: true
-            }
-        },
+            {
+                label: '# st',
+                data: [bikesActiveLun, bikesErrorLun, bikesInActiveLun],
+                backgroundColor: [
+                    'rgba(75, 192, 192, 0.2)',
+                    'rgba(255, 99, 132, 0.2)',
+                    'rgba(54, 162, 235, 0.2)',
+                ],
+                borderColor: [
+                    'rgba(75, 192, 192, 1)',
+                    'rgba(255, 99, 132, 1)',
+                    'rgba(54, 162, 235, 1)',
+                ],
+                borderWidth: 1,
+                options: {
+                    responsive: true
+                }
+            },
         ],
     };
 
     const dataBlg = {
         labels: ['Uthyrda', 'Fungerar inte', 'Parkerade'],
         datasets: [
-        {
-            label: '# st',
-            data: [bikesActiveBlg, bikesErrorBlg, bikesInActiveBlg],
-            backgroundColor: [
-            'rgba(75, 192, 192, 0.2)',
-            'rgba(255, 99, 132, 0.2)',
-            'rgba(54, 162, 235, 0.2)',
-            ],
-            borderColor: [
-                'rgba(75, 192, 192, 1)',
-            'rgba(255, 99, 132, 1)',
-            'rgba(54, 162, 235, 1)',
-            ],
-            borderWidth: 1,
-            options: {
-                responsive: true
-            }
-        },
+            {
+                label: '# st',
+                data: [bikesActiveBlg, bikesErrorBlg, bikesInActiveBlg],
+                backgroundColor: [
+                    'rgba(75, 192, 192, 0.2)',
+                    'rgba(255, 99, 132, 0.2)',
+                    'rgba(54, 162, 235, 0.2)',
+                ],
+                borderColor: [
+                    'rgba(75, 192, 192, 1)',
+                    'rgba(255, 99, 132, 1)',
+                    'rgba(54, 162, 235, 1)',
+                ],
+                borderWidth: 1,
+                options: {
+                    responsive: true
+                }
+            },
         ],
     };
 
     const dataVis = {
         labels: ['Uthyrda', 'Fungerar inte', 'Parkerade'],
         datasets: [
-        {
-            label: '# st',
-            data: [bikesActiveVis, bikesErrorVis, bikesInActiveVis],
-            backgroundColor: [
-            'rgba(75, 192, 192, 0.2)',
-            'rgba(255, 99, 132, 0.2)',
-            'rgba(54, 162, 235, 0.2)',
-            ],
-            borderColor: [
-                'rgba(75, 192, 192, 1)',
-            'rgba(255, 99, 132, 1)',
-            'rgba(54, 162, 235, 1)',
-            ],
-            borderWidth: 1,
-            options: {
-                responsive: true
-            }
-        },
+            {
+                label: '# st',
+                data: [bikesActiveVis, bikesErrorVis, bikesInActiveVis],
+                backgroundColor: [
+                    'rgba(75, 192, 192, 0.2)',
+                    'rgba(255, 99, 132, 0.2)',
+                    'rgba(54, 162, 235, 0.2)',
+                ],
+                borderColor: [
+                    'rgba(75, 192, 192, 1)',
+                    'rgba(255, 99, 132, 1)',
+                    'rgba(54, 162, 235, 1)',
+                ],
+                borderWidth: 1,
+                options: {
+                    responsive: true
+                }
+            },
         ],
     };
 
-    
     const dataClient = {
         labels: ['Aldrig hyrt', 'Hyrt en gång', 'Regelbundna användare', 'Administratörer'],
         datasets: [
-        {
-            label: '# st',
-            data: countedCustomers,
-            backgroundColor: [
-            'rgba(255, 99, 132, 0.2)',
-            'rgba(54, 162, 235, 0.2)',
-            'rgba(75, 192, 192, 0.2)',
-            'rgba(238, 189, 55, 0.399)',
-            ],
-            borderColor: [
-            'rgba(255, 99, 132, 1)',
-            'rgba(54, 162, 235, 1)',
-            'rgba(75, 192, 192, 1)',
-            'rgba(238, 189, 55, 0.629)',
-            ],
-            borderWidth: 1,
-            options: {
-                responsive: true
-            }
-        },
+            {
+                label: '# st',
+                data: countedCustomers,
+                backgroundColor: [
+                    'rgba(255, 99, 132, 0.2)',
+                    'rgba(54, 162, 235, 0.2)',
+                    'rgba(75, 192, 192, 0.2)',
+                    'rgba(238, 189, 55, 0.399)',
+                ],
+                borderColor: [
+                    'rgba(255, 99, 132, 1)',
+                    'rgba(54, 162, 235, 1)',
+                    'rgba(75, 192, 192, 1)',
+                    'rgba(238, 189, 55, 0.629)',
+                ],
+                borderWidth: 1,
+                options: {
+                    responsive: true
+                }
+            },
         ],
     };
 
-    function setCity(route){
-        if (route === "Visby"){
+    function setCity(route) {
+        if (route === "Visby") {
             navigate('stad/Visby');
-        } else if (route === "Borlänge"){
+        } else if (route === "Borlänge") {
             navigate('stad/Borlänge');
-        } else if (route === "Lund"){
+        } else if (route === "Lund") {
             navigate('stad/Lund');
-        } else if (route === "Kund"){
+        } else if (route === "Kund") {
             navigate('kund');
-        } else if (route === "admin"){
-            navigate('admindata');
-        } else if (route === "price"){
+        } else if (route === "price") {
             navigate('kostnader');
         }
     }
@@ -283,33 +285,33 @@ export default function PieAdminIndex() {
                 <h2 className='citynameh2'>Visby</h2>
                 <div className="chart-wrapper">
                     <Pie data={dataVis}/>
-                </div> 
+                </div>
                 <button onClick={() => setCity("Visby")} className="buttoncity">Mer data</button>
             </div>
             <div className="citychart">
-            <h2 className='citynameh2'>Borlänge</h2>
+                <h2 className='citynameh2'>Borlänge</h2>
                 <div className="chart-wrapper">
                     <Pie data={dataBlg}/>
-                </div> 
-                <button onClick={() => setCity("Borlänge")} className="buttoncity">Mer data</button>  
+                </div>
+                <button onClick={() => setCity("Borlänge")} className="buttoncity">Mer data</button>
             </div>
             <div className="citychart">
-            <h2 className='citynameh2'>Lund</h2>
+                <h2 className='citynameh2'>Lund</h2>
                 <div className="chart-wrapper">
                     <Pie data={dataLun}/>
-                </div> 
+                </div>
                 <button onClick={() => setCity("Lund")} className="buttoncity">Mer data</button>
             </div>
             <div className="customerchart">
                 <h1 className='clientdata'>Kunder och kostnader</h1>
                 <div className="chart-wrapper2">
                     <Pie data={dataClient}/>
-                </div> 
-                <button onClick={() => setCity("Kund")} className="buttonclient">Hantera kund</button>
-                <button onClick={() => setCity("admin")} className="buttonclient">Hantera admin</button>
-                <button onClick={() => setCity("price")} className="buttonclient">Kostnader och prisjusteringar</button>
+                </div>
+                <button onClick={() => setCity("Kund")} className="buttonclient">
+                    Hantera kund</button>
+                <button onClick={() => setCity("price")} className="buttonclient">
+                    Kostnader och prisjusteringar</button>
             </div>
         </div>
     );
-};
-
+}

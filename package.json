@@ -29,14 +29,25 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "test": "nyc --reporter=html --reporter=text --reporter=clover mocha --timeout 10000",
+    "eject": "react-scripts eject",
+    "clean": "rm -rf node_modules package-lock.json",
+    "eslint": "eslint .",
+    "posttest": "npm run eslint"
   },
   "eslintConfig": {
     "extends": [
       "react-app",
       "react-app/jest"
-    ]
+    ],
+    "rules": {
+      "react-hooks/exhaustive-deps": [
+        "warn",
+        {
+          "enableDangerousAutofixThisMayCauseInfiniteLoops": true
+        }
+      ]
+    }
   },
   "browserslist": {
     "production": [
@@ -52,6 +63,9 @@
   },
   "devDependencies": {
     "eslint": "^8.29.0",
-    "eslint-plugin-react": "^7.31.11"
+    "eslint-plugin-react": "^7.31.11",
+    "javascript-style-guide": "^1.0.1",
+    "mocha": "^10.1.0",
+    "nyc": "^15.1.0"
   }
 }
