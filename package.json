@@ -9,6 +9,7 @@
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
+    "axios": "^1.2.1",
     "chart.js": "^4.0.1",
     "eventsource": "^2.0.2",
     "google-map-react": "^2.2.0",
@@ -24,6 +25,7 @@
     "recharts": "^2.1.16",
     "redux": "^4.2.0",
     "redux-thunk": "^2.4.2",
+    "universal-cookie": "^4.0.4",
     "web-vitals": "^2.1.4"
   },
   "scripts": {

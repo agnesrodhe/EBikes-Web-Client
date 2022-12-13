@@ -2,9 +2,9 @@ name: Node.js CI
 
 on:
   push:
-    branches: [ "main" ]
+    branches: [ "dev" ]
   pull_request:
-    branches: [ "main" ]
+    branches: [ "dev" ]
 
 jobs:
   build:
@@ -14,7 +14,6 @@ jobs:
     strategy:
       matrix:
         node-version: [12.x, 14.x, 16.x]
-        mongodb-version: ['4.2', '4.4', '5.0']
 
     steps:
     - uses: actions/checkout@v3
@@ -24,10 +23,5 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
 
-    - name: Start MongoDB
-      uses: supercharge/mongodb-github-action@1.7.0
-      with:
-        mongodb-version: ${{ matrix.mongodb-version }}
-
     - run: npm install
-    - run: npm test
+    - run: npm run test
