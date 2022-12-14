@@ -11,8 +11,10 @@ const userModel = {
                 headers: {
                     'content-type': 'application/json'
                 },
+                credentials: 'include',
             });
             const result = await response.json();
+            console.log(result);
 
             return result;
         } catch (error) {
@@ -62,6 +64,24 @@ const userModel = {
 
         return result;
     },
+    updateUser: async function updateUser(userId, body) {
+        const result = fetch(`${baseURL}/v1/user/${userId}`, {
+            method: 'PUT',
+            headers: {
+                "Content-type": "application/json"
+            },
+            body: JSON.stringify(body),
+        })
+            .then((response) => response.json())
+            .then((data) => {
+                return data;
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+
+        return result;
+    }
 };
 
 export default userModel;

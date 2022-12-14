@@ -30,6 +30,7 @@ export default function PieAdminIndex() {
 
     function clienthandler() {
         userModel.getAllCustomers().then(function(result) {
+            console.log(result);
             let countzerotimes = 0;
 
             let countonetimes = 0;

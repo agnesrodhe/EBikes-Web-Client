@@ -1,6 +1,7 @@
 import React from 'react';
 import {useState} from 'react';
 import {NavLink}  from 'react-router-dom';
+import Cookies from 'js-cookie';
 
 import image from "./logo.png";
 
@@ -17,11 +18,14 @@ export default function Navbar({setToken, token, setUserId, setUserRole, role, u
         setUserId("");
         setUserRole("");
         handleClick();
+        Cookies.remove('github-jwt');
     }
 
     const handleClick = () => setClick(!click);
 
     const Close = () => setClick(false);
+
+    console.log(user);
 
     return (
         <div className='header'>

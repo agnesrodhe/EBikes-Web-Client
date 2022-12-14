@@ -242,7 +242,7 @@ export default function StatusCheck({city, cityID}) {
                                 <div>
                                     <p className='infoname'>ID (kan ej ändras):</p>
                                     <input id="id" className="updateinput"
-                                        defaultValue={status[0]._id} readonly
+                                        defaultValue={status[0]._id} readOnly
                                         onChange={changeHandler}/>
                                     <p className='infoname'>Namn:</p>
                                     <input id="name" className="updateinput"
@@ -255,17 +255,17 @@ export default function StatusCheck({city, cityID}) {
                                         defaultValue={status[0].inCity} onChange={changeHandler}/>
                                     <p className='infoname'>Maxhastighet (kan ej ändras):</p>
                                     <input id="maxspeed" className="updateinput"
-                                        defaultValue={status[0].maxspeed} readonly
+                                        defaultValue={status[0].maxspeed} readOnly
                                         onChange={changeHandler}/>
                                     <p className='infoname'>Status:</p>
                                     <input id="works" className="updateinput"
                                         defaultValue={status[0].status} onChange={changeHandler}
-                                        readonly/>
+                                        readOnly/>
                                     <p className='infoname'>Laddstation:
                                         (använd fliken förflytta fordon för flytt)</p>
                                     <input id="charging" className="updateinput"
                                         defaultValue={status[0].charging} onChange={changeHandler}
-                                        readonly/>
+                                        readOnly/>
                                     <p className='infoname'>Parkeringsplats:
                                         (använd fliken förflytta fordon för flytt)</p>
                                     <input id="parked" className="updateinput"
