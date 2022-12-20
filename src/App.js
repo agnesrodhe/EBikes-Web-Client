@@ -1,24 +1,25 @@
 import React from 'react';
 import Cookies from 'js-cookie';
-import axios from 'axios';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import {useState, useEffect} from 'react';
+import axios from 'axios';
 import './App.css';
 
 import userModel from './models/users';
+const baseURL = "http://localhost:3002";
 
 /*
 Routes for site
 */
 import Navbar from './components/navbar/Navbar';
 import Footer from './components/footer/footer';
-import Home from './routes';
-import About from './routes/about';
-import Client from './routes/admin/handleClient';
-import Signin from './routes/signin';
-import User from './routes/user';
-import Admin from './routes/admin/admincity';
-import Prices from './routes/admin/prices';
+import Home from './components/pages/homepage';
+import About from './components/pages/about/about';
+import Client from './components/pages/admin/handleUsers/handleClient';
+import Signin from './components/pages/login/signin';
+import User from './components/pages/login/usercheck';
+import Admin from './components/pages/admin/handleBikes/admincity';
+import Prices from './components/pages/admin/handlePrices/prices';
 
 /*
 Header with navbar, router with routes for pages and footer.
@@ -31,12 +32,26 @@ function App() {
 
     useEffect(() => {
         (async () => {
-            const usr = await axios
-                .get('http://localhost:3002/v1/user/githubtoken', {
-                    withCredentials: true
+            const usr = await axios.get(`${baseURL}/v1/user/githubtoken`, {
+                withCredentials: true
+            })
+                .then((response) => {
+                    return response.data;
                 })
-                .then((res) => res.data);
+                .catch((error) => {
+                    // Error
+                    if (error.response) {
+                        console.log(error.response);
+                    } else if (error.request) {
+                        console.log(error.request);
+                    } else {
+                        // Something happened in setting up the request that triggered an Error
+                        console.log('Error', error.message);
+                    }
+                    console.log(error.config);
+                });
 
+            console.log(usr);
             const usr2 = Cookies.get('github-jwt');
 
             if (!usr && !usr2) {
@@ -58,7 +73,7 @@ function App() {
             <Router>
                 <div className='head'>
                     <Navbar setToken={setToken} token={token}
-                        setUserId={setUserId} user={user} role={role}/>
+                        setUserId={setUserId} user={user} role={role} setUserRole={setUserRole}/>
                 </div>
                 <div className='mainbody'>
                     <Routes>

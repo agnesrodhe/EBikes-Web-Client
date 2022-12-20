@@ -1,13 +1,15 @@
 import React from 'react';
 import {useState} from 'react';
 import {NavLink}  from 'react-router-dom';
-import Cookies from 'js-cookie';
+import axios from 'axios';
 
 import image from "./logo.png";
 
 import { AiOutlineMenu, AiOutlineUser, AiFillHome, AiFillInfoCircle} from 'react-icons/ai';
 import { MdVerifiedUser } from "react-icons/md";
 import { FiLogOut, FiLogIn } from "react-icons/fi";
+
+const baseURL = "http://localhost:3002";
 
 
 export default function Navbar({setToken, token, setUserId, setUserRole, role, user}) {
@@ -18,14 +20,29 @@ export default function Navbar({setToken, token, setUserId, setUserRole, role, u
         setUserId("");
         setUserRole("");
         handleClick();
-        Cookies.remove('github-jwt');
+        await axios.get(`${baseURL}/v1/user/logout`, {
+            withCredentials: true
+        })
+            .then((response) => {
+                console.log(response.data);
+            })
+            .catch((error) => {
+                // Error
+                if (error.response) {
+                    console.log(error.response);
+                } else if (error.request) {
+                    console.log(error.request);
+                } else {
+                    // Something happened in setting up the request that triggered an Error
+                    console.log('Error', error.message);
+                }
+                console.log(error.config);
+            });
     }
 
     const handleClick = () => setClick(!click);
 
     const Close = () => setClick(false);
-
-    console.log(user);
 
     return (
         <div className='header'>
@@ -40,7 +57,6 @@ export default function Navbar({setToken, token, setUserId, setUserRole, role, u
                             <NavLink
                                 exact
                                 to="/"
-                                activeClassName="active"
                                 className="nav-links"
                                 onClick={click ? handleClick : null}>
                                 <AiFillHome size={24}/>
@@ -50,7 +66,6 @@ export default function Navbar({setToken, token, setUserId, setUserRole, role, u
                             <NavLink
                                 exact
                                 to="/om"
-                                activeClassName="active"
                                 className="nav-links"
                                 onClick={click ? handleClick : null}>
                                 <AiFillInfoCircle size={24}/>
@@ -63,7 +78,6 @@ export default function Navbar({setToken, token, setUserId, setUserRole, role, u
                                         <NavLink
                                             exact
                                             to="/anvandare"
-                                            activeClassName="active"
                                             className="nav-links"
                                             onClick={click ? handleClick : null}>
                                             <MdVerifiedUser size={24}/>
@@ -74,7 +88,6 @@ export default function Navbar({setToken, token, setUserId, setUserRole, role, u
                                             <NavLink
                                                 exact
                                                 to="/anvandare"
-                                                activeClassName="active"
                                                 className="nav-links"
                                                 onClick={click ? handleClick : null}>
                                                 < AiOutlineUser size={24}/>
@@ -86,7 +99,6 @@ export default function Navbar({setToken, token, setUserId, setUserRole, role, u
                                 <NavLink
                                     exact
                                     to="/loggain"
-                                    activeClassName="active"
                                     className="nav-links"
                                     onClick={click ? handleClick : null}>
                                     <FiLogIn size={24}/>
@@ -97,7 +109,6 @@ export default function Navbar({setToken, token, setUserId, setUserRole, role, u
                                 <NavLink
                                     exact
                                     to="/"
-                                    activeClassName="active"
                                     className="nav-links"
                                     onClick={logout}
                                 >
