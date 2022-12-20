@@ -6,7 +6,7 @@ import { IoIosCall, IoIosMail } from "react-icons/io";
 export default function Footer() {
     return (
         <div className='footer-section'>
-            <div class="footer-cta">
+            <div className="footer-cta">
                 <div className='footerbox'>
                     <div className="cta-text">
                         <h4>Hitta oss <GiPositionMarker size={25}/></h4>

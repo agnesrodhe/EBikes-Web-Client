@@ -29,18 +29,24 @@ const userModel = {
                 headers: {
                     'content-type': 'application/json'
                 },
+                credentials: 'include',
             });
 
             const result = await response.json();
-
-            return result;
+            if (Object.values(result).indexOf('user already exists') > -1) {
+                return 'Användarnamn upptaget'
+            } else {
+                return 'Användaren är nu registrerad!'
+            }
         } catch (error) {
             return "error";
         }
     },
     getAllCustomers: async function getAllCustomers() {
-        const result = fetch(`${baseURL}/v1/user/all`
-        )
+        const result = fetch(`${baseURL}/v1/user/all`, {
+            method: 'GET',
+            credentials: 'include'
+        })
             .then(r => r.json())
             .then(result => {
                 return result;
@@ -52,14 +58,45 @@ const userModel = {
     },
     getUser: async function getUser(userId) {
         const result = fetch(`${baseURL}/v1/customers/${userId}`, {
-            method: 'GET'
+            method: 'GET',
+            credentials: 'include'
         })
             .then((response) => response.json())
             .then((data) => {
                 return data;
             })
             .catch((error) => {
-                console.log(error);
+                return "No user found"
+            });
+
+        return result;
+    },
+    getSearchUsername: async function getSearchUsername(user) {
+        const result = fetch(`${baseURL}/v1/user/search/${user}`, {
+            method: 'GET',
+            credentials: 'include'
+        })
+            .then((response) => response.json())
+            .then((data) => {
+                return data;
+            })
+            .catch((error) => {
+                return "No user found"
+            });
+
+        return result;
+    },
+    getSearchUser: async function getSearchUser(first, last) {
+        const result = fetch(`${baseURL}/v1/user/search/${first}/${last}`, {
+            method: 'GET',
+            credentials: 'include'
+        })
+            .then((response) => response.json())
+            .then((data) => {
+                return data;
+            })
+            .catch((error) => {
+                return "No user found"
             });
 
         return result;
@@ -71,6 +108,23 @@ const userModel = {
                 "Content-type": "application/json"
             },
             body: JSON.stringify(body),
+            credentials: 'include',
+        })
+            .then((response) => response.json())
+            .then((data) => {
+                return data;
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+
+        return result;
+    },
+    deleteUser: async function deleteUser(userId) {
+        console.log(userId);
+        const result = fetch(`${baseURL}/v1/user/${userId}`, {
+            method: 'DELETE',
+            credentials: 'include',
         })
             .then((response) => response.json())
             .then((data) => {
