@@ -1,7 +1,9 @@
 import React from 'react';
+
+//Import component
 import AdminIndex from '../admin/indexpage/startpage';
 
-
+//Function to determine role for user. If customer renatigate to app. If admin continue.
 export default function User({token, role, fullUser}) {
     return (
         <div className='body'>

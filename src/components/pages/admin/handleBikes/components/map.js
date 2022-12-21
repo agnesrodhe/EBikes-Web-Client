@@ -94,7 +94,6 @@ export default function MapCity({center, city, cityID}) {
             style={{ marginLeft: '47%', marginTop: "20%" }}/>;
     }
 
-
     return (
         <div>
             <GoogleMap

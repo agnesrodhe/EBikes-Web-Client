@@ -4,18 +4,30 @@ import { GoogleMap, useLoadScript, MarkerF, InfoWindowF, PolygonF, CircleF }
     from '@react-google-maps/api';
 import {TailSpin} from 'react-loading-icons';
 
+/*
+Import functions
+*/
 import functionModel from "./functions/functions";
 
+/*
+Import media
+*/
 import imagered from "../media/red.png";
 import imagegrey from "../media/grey.png";
 import chargeimage from "../media/charge.png";
 import parkingimage from "../media/parking.png";
 
+/*
+options for map.
+*/
 const containerStyle = {
     width: '100%',
     height: '900px',
 };
 
+/*
+options for cirkle om map around parking.
+*/
 const options = {
     strokeColor: 'green',
     strokeOpacity: 0.6,
@@ -30,6 +42,9 @@ const options = {
     zIndex: 1
 };
 
+/*
+Compoent for one-page render admin for "Kartvy inaktiva"
+*/
 export default function MapCityIn({center, city, cityID}) {
     const [status, setStatus] = useState(null);
     const [selectedZone, setSelectedZone] = useState(null);
@@ -56,6 +71,7 @@ export default function MapCityIn({center, city, cityID}) {
         // eslint-disable-next-line
     }, [])
 
+    //Function to set table depending on selected option.
     function statusGenerator(value) {
         setSelectedZone(value);
         let array = [];
@@ -91,6 +107,7 @@ export default function MapCityIn({center, city, cityID}) {
         }
     }
 
+    //Set loading icon if map not set.
     if (loadError) {return "Error loading maps";}
     if (!isLoaded) {
         return <TailSpin stroke="#d4b242"

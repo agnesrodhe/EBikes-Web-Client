@@ -2,15 +2,19 @@ import React from 'react';
 import {useState, useEffect} from 'react';
 import {NavLink}  from 'react-router-dom';
 
+/*
+Import model to work towars prices in rest:api.
+*/
 import priceModel from '../../../../models/prices';
 
+/*
+Component to route to change prices in all cities.
+*/
 export default function Prices({role}) {
     const [click, setClick] = useState(false);
     const [prices, setPrices] = useState("");
     const [message, setMessage] = useState(false);
     const [error, setError] = useState(false);
-
-
     const handleClick = () => setClick(!click);
 
     useEffect(() => {

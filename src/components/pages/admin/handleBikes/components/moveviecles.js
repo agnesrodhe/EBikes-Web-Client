@@ -1,8 +1,14 @@
 import React from 'react';
 import { useEffect, useState } from 'react';
 
+/*
+Import model.
+*/
 import functionModel from "./functions/functions";
 
+/*
+Component for one-page render "Förflytta fordon".
+*/
 export default function MoveViecles({city, cityID}) {
     const [bikes, setBikes] = useState("");
     const [selectedOption, setSelectedOption] = useState("Alla");
@@ -19,6 +25,7 @@ export default function MoveViecles({city, cityID}) {
         // eslint-disable-next-line
     }, []);
 
+    //Set changes.
     const handleOnChange = (value) => {
         if (selectedBike.includes(value)) {
             const index = selectedBike.indexOf(value);

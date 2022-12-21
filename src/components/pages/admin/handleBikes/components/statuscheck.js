@@ -1,9 +1,15 @@
 import React from 'react';
 import { useEffect, useState, useRef } from 'react';
 
+/*
+Import models.
+*/
 import bikesModel from '../../../../../models/bikes.js';
 import functionsModel from "./functions/functions";
 
+/*
+Component for one-page render for admin - statuscheck.
+*/
 export default function StatusCheck({city, cityID}) {
     const [bikes, setBikes] = useState("");
     const [selectedOption, setSelectedOption] = useState("Alla");
@@ -20,6 +26,7 @@ export default function StatusCheck({city, cityID}) {
         // eslint-disable-next-line
     }, []);
 
+    //Save updates for bike.
     function saveUpdate() {
         updatedOne.current = null;
         let id = document.getElementById("id").value;

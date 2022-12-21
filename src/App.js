@@ -51,7 +51,6 @@ function App() {
                     console.log(error.config);
                 });
 
-            console.log(usr);
             const usr2 = Cookies.get('github-jwt');
 
             if (!usr && !usr2) {

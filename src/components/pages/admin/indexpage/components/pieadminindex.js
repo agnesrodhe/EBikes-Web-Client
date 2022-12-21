@@ -29,6 +29,7 @@ export default function PieAdminIndex() {
         // eslint-disable-next-line
     }, []);
 
+    //Count users and set count for pie diagram.
     function clienthandler() {
         userModel.getAllCustomers().then(function(result) {
             console.log(result);
@@ -56,6 +57,7 @@ export default function PieAdminIndex() {
         });
     }
 
+    //Set counted variables for bikes in each city.
     function updateandsetbikes() {
         bikesModel.getCityZones().then(function(result) {
             result.forEach((place) => {
@@ -169,6 +171,22 @@ export default function PieAdminIndex() {
         });
     }
 
+    //Navigate to routes.
+    function setCity(route) {
+        if (route === "Visby") {
+            navigate('stad/Visby');
+        } else if (route === "Borlänge") {
+            navigate('stad/Borlänge');
+        } else if (route === "Lund") {
+            navigate('stad/Lund');
+        } else if (route === "Kund") {
+            navigate('kund');
+        } else if (route === "price") {
+            navigate('kostnader');
+        }
+    }
+
+    //Options to set pie variables and colors.
     const dataLun = {
         labels: ['Uthyrda', 'Fungerar inte', 'Parkerade'],
         datasets: [
@@ -266,20 +284,6 @@ export default function PieAdminIndex() {
             },
         ],
     };
-
-    function setCity(route) {
-        if (route === "Visby") {
-            navigate('stad/Visby');
-        } else if (route === "Borlänge") {
-            navigate('stad/Borlänge');
-        } else if (route === "Lund") {
-            navigate('stad/Lund');
-        } else if (route === "Kund") {
-            navigate('kund');
-        } else if (route === "price") {
-            navigate('kostnader');
-        }
-    }
 
     return (
         <div className='adminindex'>

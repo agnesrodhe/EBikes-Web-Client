@@ -2,6 +2,7 @@
 import bikesModel from '../../../../../../models/bikes.js';
 
 const functionsModel = {
+    //Set initials useState values for map components.
     updateZoneMain: function updateZoneMain(status, city, cityID,
         {setMainZone, setBikes, setBikesError, setChargingPoints, setParkingPoints, setZoomLevel}) {
         bikesModel.getCityZones().then(function(result) {
@@ -41,6 +42,7 @@ const functionsModel = {
         });
     },
 
+    //Set inactive bikes. Dependencies: working, not working.
     updateInActiveBikes: function updateInActiveBikes(cityID, {setBikesError, setBikes}) {
         bikesModel.getAllInActiveBikes(cityID.current).then(function(result) {
             const working = [];
@@ -58,6 +60,7 @@ const functionsModel = {
         });
     },
 
+    //Set array with chargingstations in city.
     updateZoneCharging: function updateZoneCharging(place, {setChargingPoints}) {
         bikesModel.getAllChargingZones().then(function(result) {
             let array = [];
@@ -71,6 +74,7 @@ const functionsModel = {
         });
     },
 
+    //Set array with parkingzones in city.
     updateZoneParking: function updateZoneParking(place, {setParkingPoints}) {
         bikesModel.getAllParkingZones().then(function(result) {
             let array = [];
@@ -84,6 +88,7 @@ const functionsModel = {
         });
     },
 
+    //Function to set bikes if parked in parkingzone or is in chargingstation.
     counter: function counter(position, bikes) {
         let array = [];
 
@@ -95,6 +100,7 @@ const functionsModel = {
         return array;
     },
 
+    //To set select option table for moveviecles and statuscheck.
     statusGenerator: function statusGenerator(value, bikes,
         {setStatus, setSelectedOption}) {
         setSelectedOption(value);
@@ -157,6 +163,7 @@ const functionsModel = {
         }
     },
 
+    //Move viecles depending on if charginstation or parkingzone.
     selectOne: function selectOne(value, pos, cityID, selectedBike, {setBikes, setStatus}) {
         if (pos === "laddning") {
             selectedBike.forEach(element => {
@@ -183,6 +190,7 @@ const functionsModel = {
         }
     },
 
+    //Get all bikes in city. Set bikes.
     updateBikes: function updateBikes(cityID, {setBikes, setStatus}) {
         bikesModel.getAllBikesCity(cityID.current).then(function(result) {
             setBikes(result);
@@ -190,6 +198,7 @@ const functionsModel = {
         });
     },
 
+    //Select one bike for statuscheck. Set variables.
     selectedOne: function selectedOne(value, {selectedBikeFix,
         updatedOne, setsavedStatus, setStatus, setSelectedBike, selectedOption}) {
         selectedBikeFix.current = "choosen";
@@ -199,6 +208,7 @@ const functionsModel = {
         setSelectedBike(value.history);
     },
 
+    //Unselect one bike for statuscheck.
     unSelectOne: function unSelectOne(value, bikes, {selectedBikeFix, updatedOne,
         setSelectedBike, setStatus, setSelectedOption}) {
         selectedBikeFix.current = null;
@@ -208,6 +218,7 @@ const functionsModel = {
         setSelectedBike(null);
     },
 
+    //If update button is clicked set variables.
     updateOne: function updateOne({updatedOne, setSelectedBike}) {
         updatedOne.current = "updated";
         setSelectedBike(null);
