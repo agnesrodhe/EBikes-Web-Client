@@ -1,7 +1,7 @@
 import React from 'react';
 import { useEffect, useState } from 'react';
 
-import bikesModel from '../../../../../models/bikes.js';
+import functionModel from "./functions/functions";
 
 export default function MoveViecles({city, cityID}) {
     const [bikes, setBikes] = useState("");
@@ -13,92 +13,11 @@ export default function MoveViecles({city, cityID}) {
 
     useEffect(() => {
         setBikes("No active bikes in this city");
-        updateBikes();
+        functionModel.updateBikes(cityID, {setBikes, setStatus});
+        functionModel.updateZoneCharging(cityID.current, {setChargingPoints});
+        functionModel.updateZoneCharging(cityID.current, {setParkingPoints});
         // eslint-disable-next-line
     }, []);
-
-    useEffect(() => {
-        bikesModel.getAllChargingZones().then(function(result) {
-            let array = [];
-
-            result.forEach((result) => {
-                if (result.inCity === cityID.current) {
-                    array.push(result);
-                }
-            });
-            setChargingPoints(array);
-        });
-        bikesModel.getAllParkingZones().then(function(result) {
-            let arraytwo = [];
-
-
-            result.forEach((result) => {
-                if (result.inCity === cityID.current) {
-                    arraytwo.push(result);
-                }
-            });
-            setParkingPoints(arraytwo);
-        });
-    }, []);
-
-    function updateBikes() {
-        bikesModel.getAllBikesCity(cityID.current).then(function(result) {
-            setBikes(result);
-            setStatus(result);
-        });
-    }
-
-    function statusGenerator(value) {
-        setSelectedOption(value);
-        if (value === "Alla") {
-            setStatus(bikes);
-        } else if (value === "Aktiva") {
-            let array = [];
-
-            bikes.forEach((value) => {
-                if (value.active !== null) {
-                    array.push(value);
-                }
-                setStatus(array);
-            });
-        } else if (value === "Parkerade") {
-            let array = [];
-
-            bikes.forEach((value) => {
-                if (value.parked !== null) {
-                    array.push(value);
-                }
-                setStatus(array);
-            });
-        } else if (value === "Laddande") {
-            let array = [];
-
-            bikes.forEach((value) => {
-                if (value.charging !== null) {
-                    array.push(value);
-                }
-                setStatus(array);
-            });
-        } else if (value === "Behöver laddas") {
-            let array = [];
-
-            bikes.forEach((value) => {
-                if (value.status === "noBattery" && value.charging === null) {
-                    array.push(value);
-                }
-                setStatus(array);
-            });
-        } else if (value === "Behöver service") {
-            let array = [];
-
-            bikes.forEach((value) => {
-                if (value.status === "needService") {
-                    array.push(value);
-                }
-                setStatus(array);
-            });
-        }
-    }
 
     const handleOnChange = (value) => {
         if (selectedBike.includes(value)) {
@@ -110,33 +29,6 @@ export default function MoveViecles({city, cityID}) {
         }
     };
 
-    function SelectOne(value, pos) {
-        console.log(value);
-        if (pos === "laddning") {
-            selectedBike.forEach(element => {
-                bikesModel.updateOneBike(element._id,
-                    {
-                        charging: value._id,
-                        parked: null,
-                        location: value.location})
-                    .then(function() {
-                        updateBikes();
-                    });
-            });
-        } else if (pos === "parkerad") {
-            selectedBike.forEach(element => {
-                bikesModel.updateOneBike(element._id,
-                    {
-                        charging: null,
-                        parked: value._id,
-                        location: value.location})
-                    .then(function() {
-                        updateBikes();
-                    });
-            });
-        }
-    }
-
     return (
         <div className='body'>
             <div className='bodystatus'>
@@ -147,12 +39,15 @@ export default function MoveViecles({city, cityID}) {
                     </h3>
                     <div className='selectoption'>
                         <select value={selectedOption}
-                            onChange={e => statusGenerator(e.target.value)}
+                            onChange={e => functionModel.statusGenerator(e.target.value, bikes,
+                                {setStatus, setSelectedOption})}
                             name="areastatus" id="areastatus">
                             <option className='optionbox' value="Alla"> Alla </option>
                             <option className='optionbox' value="Aktiva">Aktiva</option>
-                            <option className='optionbox' value="Parkerade">Parkerade</option>
+                            <option className='optionbox' value="Parkerade">
+                                Inom parkeringszoner</option>
                             <option className='optionbox' value="Laddande">Laddande</option>
+                            <option className='optionbox' value="Felparkerade">Felparkerade</option>
                             <option className='optionbox' value="Behöver laddas">
                                 Behöver laddas</option>
                             <option className='optionbox' value="Behöver service">
@@ -252,7 +147,11 @@ export default function MoveViecles({city, cityID}) {
                                     chargingPoints.map((place) => {
                                         return (
                                             <button className='buttononmove'
-                                                onClick={() =>{SelectOne(place, "laddning");}}>
+                                                onClick={() =>{
+                                                    functionModel.selectOne(
+                                                        place, "laddning", cityID, selectedBike,
+                                                        {setBikes, setStatus});
+                                                }}>
                                                 {place.name.toString()}</button>
                                         );
                                     })}
@@ -262,7 +161,11 @@ export default function MoveViecles({city, cityID}) {
                                 {parkingPoints && parkingPoints.map((place) => {
                                     return (
                                         <button className='buttononmove'
-                                            onClick={() =>{SelectOne(place, "parkering");}}>
+                                            onClick={() =>{
+                                                functionModel.selectOne(
+                                                    place, "parkering", cityID, selectedBike,
+                                                    {setBikes, setStatus});
+                                            }}>
                                             {place.name.toString()}</button>
                                     );
                                 })}

@@ -5,7 +5,7 @@ import { GoogleMap, useLoadScript, MarkerF, InfoWindowF, PolygonF, CircleF }
 import {TailSpin} from 'react-loading-icons';
 
 //Functions
-import functionModel from "./functions/mapfunc";
+import functionModel from "./functions/functions";
 
 //Media
 import imagegreen from "../media/green.png";

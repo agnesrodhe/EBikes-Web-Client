@@ -1,6 +1,6 @@
 import React from 'react';
 import {useNavigate} from 'react-router-dom';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
 import { Pie } from 'react-chartjs-2';
 
@@ -21,6 +21,7 @@ export default function PieAdminIndex() {
     const [bikesErrorLun, setBikesErrorLun] = useState("");
     const [bikesActiveLun, setBikesActiveLun] = useState("");
     const [countedCustomers, setCountedCustomers] = useState("");
+    const countedUsers = useRef(0);
 
     useEffect(() => {
         updateandsetbikes();
@@ -51,6 +52,7 @@ export default function PieAdminIndex() {
                 }
             });
             setCountedCustomers([countzerotimes, countonetimes, countmanytimes, countadmin]);
+            countedUsers.current = countzerotimes + countonetimes + countmanytimes + countadmin;
         });
     }
 
@@ -287,26 +289,45 @@ export default function PieAdminIndex() {
                 <div className="chart-wrapper">
                     <Pie data={dataVis}/>
                 </div>
-                <button onClick={() => setCity("Visby")} className="buttoncity">Mer data</button>
+                <div>
+                    <h5 className='h5tot'>Totalt antal cyklar: {
+                        bikesActiveVis + bikesErrorVis + bikesInActiveVis}</h5>
+                </div>
+                <button onClick={() => setCity("Visby")} className="buttoncity">
+                    Se mer data från Visby</button>
             </div>
             <div className="citychart">
                 <h2 className='citynameh2'>Borlänge</h2>
                 <div className="chart-wrapper">
                     <Pie data={dataBlg}/>
                 </div>
-                <button onClick={() => setCity("Borlänge")} className="buttoncity">Mer data</button>
+                <div>
+                    <h5 className='h5tot'>Totalt antal cyklar: {
+                        bikesActiveBlg + bikesErrorBlg + bikesInActiveBlg}</h5>
+                </div>
+                <button onClick={() => setCity("Borlänge")} className="buttoncity">
+                    Se mer data från Borlänge</button>
             </div>
             <div className="citychart">
                 <h2 className='citynameh2'>Lund</h2>
                 <div className="chart-wrapper">
                     <Pie data={dataLun}/>
                 </div>
-                <button onClick={() => setCity("Lund")} className="buttoncity">Mer data</button>
+                <div>
+                    <h5 className='h5tot'>Totalt antal cyklar: {
+                        bikesActiveLun + bikesErrorLun + bikesInActiveLun}</h5>
+                </div>
+                <button onClick={() => setCity("Lund")} className="buttoncity">
+                    Se mer data från Lund</button>
             </div>
             <div className="customerchart">
                 <h1 className='clientdata'>Kunder och kostnader</h1>
                 <div className="chart-wrapper2">
                     <Pie data={dataClient}/>
+                </div>
+                <div>
+                    <h5 className='h5admin'>Antal användare: {
+                        countedUsers.current}</h5>
                 </div>
                 <button onClick={() => setCity("Kund")} className="buttonclient">
                     Hantera kund</button>

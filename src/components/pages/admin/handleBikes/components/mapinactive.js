@@ -4,7 +4,7 @@ import { GoogleMap, useLoadScript, MarkerF, InfoWindowF, PolygonF, CircleF }
     from '@react-google-maps/api';
 import {TailSpin} from 'react-loading-icons';
 
-import functionModel from "./functions/mapfunc";
+import functionModel from "./functions/functions";
 
 import imagered from "../media/red.png";
 import imagegrey from "../media/grey.png";
@@ -58,21 +58,36 @@ export default function MapCityIn({center, city, cityID}) {
 
     function statusGenerator(value) {
         setSelectedZone(value);
-        console.log(value);
         let array = [];
 
-        bikes.forEach((bike) => {
-            if (bike.charging === value) {
-                array.push(bike);
-            } else if (bike.parked === value) {
-                array.push(bike);
-            }
-        });
+        if (value === "fel") {
+            bikes.forEach((bike) => {
+                if (bike.charging === null && bike.parked === null) {
+                    array.push(bike);
+                }
+            });
 
-        if (array.length === 0) {
-            setStatus("tom");
+            if (array.length === 0) {
+                setStatus("tom");
+            } else {
+                setStatus(array);
+            }
+        } else if (value === "Alla") {
+            setStatus("Alla");
         } else {
-            setStatus(array);
+            bikes.forEach((bike) => {
+                if (bike.charging === value) {
+                    array.push(bike);
+                } else if (bike.parked === value) {
+                    array.push(bike);
+                }
+            });
+
+            if (array.length === 0) {
+                setStatus("tom");
+            } else {
+                setStatus(array);
+            }
         }
     }
 
@@ -93,6 +108,7 @@ export default function MapCityIn({center, city, cityID}) {
                         onChange={e => statusGenerator(e.target.value)}
                         name="areastatus" id="areastatus">
                         <option className='optionbox' value="Alla"> Ingen vald </option>
+                        <option className='optionbox' value="fel"> Felparkerade </option>
                         {parkingPoints &&
                             parkingPoints.map((zone) => {
                                 return <option className='optionbox' value={zone._id}>
@@ -116,34 +132,37 @@ export default function MapCityIn({center, city, cityID}) {
                         <>
                             <h4>Tom laddstation eller parkeringsplats.</h4>
                         </>
-                        : <>
-                            <tbody className='tablehistory'>
-                                <tr>
-                                    <th>ID:</th>
-                                    <th>Namn:</th>
-                                    <th>Statuskod:</th>
-                                    <th>Laddar:</th>
-                                    <th>Parkerad:</th>
-                                    <th>Batterinivå:</th>
-                                </tr>
-                                {Array.isArray(status)
-                                    ?
-                                    status.map(value => {
-                                        return (
-                                            <tr>
-                                                <td>{value._id}</td>
-                                                <td>{value.name}</td>
-                                                <td>{value.status}</td>
-                                                {value.charging !== null ?
-                                                    <td>Ja</td> : <td>Nej</td>}
-                                                {value.parked !== null ?
-                                                    <td>Ja</td> :<td>Nej</td>}
-                                                <td>{value.batterylevel.toString()}%</td>
-                                            </tr>);
-                                    })
-                                    : null}
-                            </tbody>
-                        </>
+                        : status === "Alla" ?
+                            <>
+                            </>
+                            : <>
+                                <tbody className='tablehistory'>
+                                    <tr>
+                                        <th>ID:</th>
+                                        <th>Namn:</th>
+                                        <th>Statuskod:</th>
+                                        <th>Laddar:</th>
+                                        <th>Parkerad:</th>
+                                        <th>Batterinivå:</th>
+                                    </tr>
+                                    {Array.isArray(status)
+                                        ?
+                                        status.map(value => {
+                                            return (
+                                                <tr>
+                                                    <td>{value._id}</td>
+                                                    <td>{value.name}</td>
+                                                    <td>{value.status}</td>
+                                                    {value.charging !== null ?
+                                                        <td>Ja</td> : <td>Nej</td>}
+                                                    {value.parked !== null ?
+                                                        <td>Ja</td> :<td>Nej</td>}
+                                                    <td>{value.batterylevel.toString()}%</td>
+                                                </tr>);
+                                        })
+                                        : null}
+                                </tbody>
+                            </>
                 }
             </div>
             <div className="map">
