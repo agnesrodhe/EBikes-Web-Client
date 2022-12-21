@@ -18,8 +18,8 @@ const priceModel = {
 
         return result;
     },
-    updatePrice: async function updateUser(userId, body) {
-        const result = fetch(`${baseURL}/v1/user/${userId}`, {
+    updatePrice: async function updateUser(id, body) {
+        const result = fetch(`${baseURL}/v1/prices/${id}`, {
             method: 'PUT',
             headers: {
                 "Content-type": "application/json"

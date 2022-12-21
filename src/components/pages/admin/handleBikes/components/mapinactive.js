@@ -6,7 +6,7 @@ import {TailSpin} from 'react-loading-icons';
 
 import functionModel from "./functions/mapfunc";
 
-import imagered from "./media/red.png";
+import imagered from "../media/red.png";
 import imagegrey from "../media/grey.png";
 import chargeimage from "../media/charge.png";
 import parkingimage from "../media/parking.png";
