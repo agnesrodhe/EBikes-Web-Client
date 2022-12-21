@@ -2,6 +2,9 @@ import React from 'react';
 import {useState, useEffect, useRef} from 'react';
 import { useParams } from "react-router-dom";
 
+/*
+Import components.
+*/
 import Map from './components/map';
 import MapIn from './components/mapinactive';
 import MoveViecles from './components/moveviecles';
@@ -12,18 +15,19 @@ const centervisby = {
     lat: 57.629472,
     lng: 18.309996
 };
-
 const centerborlange = {
     lat: 60.4841,
     lng: 15.418
 };
-
 const centerlund = {
     lat: 55.700000,
     lng: 13.199143
 };
 
-export default function Admin({/*token, user,*/ role}) {
+/*
+Function for one page render. Navbar if admin to administer bikes in city.
+*/
+export default function Admin({role}) {
     const [comp, setComponent] = useState("");
     const city = useParams();
     const cityID = useRef("");
@@ -60,7 +64,7 @@ export default function Admin({/*token, user,*/ role}) {
                             <li className='menuitemsloggedin'>
                                 <button className='buttonifloggedin'
                                     onClick={() => clickhandler("mapinactive")}>
-                                        Kartvy parkerade</button>
+                                        Kartvy inaktiva</button>
                             </li>
                             <li className='menuitemsloggedin'>
                                 <button className='buttonifloggedin'

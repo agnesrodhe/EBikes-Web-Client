@@ -671,6 +671,15 @@ if logged admin
   outline: 2px solid rgba(238, 189, 55, 0.399);
 }
 
+.h5tot {
+  text-align: center;
+  padding-left: 7em;
+}
+
+.h5admin {
+  text-align: center;
+}
+
 /*
 map.js & mapinactive.js moveviecles.js
 */

@@ -2,8 +2,14 @@ import React from 'react';
 import {useState, useRef} from 'react';
 import {NavLink}  from 'react-router-dom';
 
+/*
+Import model for users to work toward rest:api.
+*/
 import userModel from '../../../../models/users.js';
 
+/*
+Component for route to update, change or delete user. If used to search for users aswell.
+*/
 export default function Client({role}) {
     const [advance, setAdvance] = useState(false);
     const [search, setsearch] = useState("");
@@ -17,6 +23,7 @@ export default function Client({role}) {
     const selectedUserFix = useRef(null);
     const updatedOne = useRef(null);
 
+    //Save and set changes.
     function changeHandler(event) {
         let newObject = {};
 
@@ -24,6 +31,7 @@ export default function Client({role}) {
         setsearch({...search, ...newObject});
     }
 
+    //Function to search for user in model user.
     function searcher() {
         updatedOne.current = null;
         setDeleted(false);
@@ -69,6 +77,7 @@ export default function Client({role}) {
         }
     }
 
+    //Set user if found.
     function setAll() {
         setErrorMessage(null);
         userModel.getAllCustomers().then(function(result) {
@@ -81,18 +90,21 @@ export default function Client({role}) {
         });
     }
 
+    //Select one user.
     function SelectOne(value) {
         selectedUserFix.current = "choosen";
         updatedOne.current = "";
         setSelectedUser(value.history);
     }
 
+    //Update user.
     function updateOne(value) {
         updatedOne.current = "updated";
         selectedUserFix.current = "";
         setSelectedUser(value);
     }
 
+    //Uppdate changes with model users.
     function saveUpdate() {
         let id = document.getElementById("id").value;
 
@@ -118,6 +130,7 @@ export default function Client({role}) {
         setSelectedUser(null);
     }
 
+    //Delete user.
     function deleteUpdate(picked) {
         if (deleted === true) {
             setDeleted(false);
@@ -130,6 +143,7 @@ export default function Client({role}) {
         }
     }
 
+    //Register new client.
     function registerNew() {
         let user = document.getElementById("username2").value;
 

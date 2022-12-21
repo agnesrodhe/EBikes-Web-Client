@@ -5,7 +5,7 @@ import { GoogleMap, useLoadScript, MarkerF, InfoWindowF, PolygonF, CircleF }
 import {TailSpin} from 'react-loading-icons';
 
 //Functions
-import functionModel from "./functions/mapfunc";
+import functionModel from "./functions/functions";
 
 //Media
 import imagegreen from "../media/green.png";
@@ -93,7 +93,6 @@ export default function MapCity({center, city, cityID}) {
         return <TailSpin stroke="#d4b242"
             style={{ marginLeft: '47%', marginTop: "20%" }}/>;
     }
-
 
     return (
         <div>

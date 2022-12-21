@@ -4,18 +4,30 @@ import { GoogleMap, useLoadScript, MarkerF, InfoWindowF, PolygonF, CircleF }
     from '@react-google-maps/api';
 import {TailSpin} from 'react-loading-icons';
 
-import functionModel from "./functions/mapfunc";
+/*
+Import functions
+*/
+import functionModel from "./functions/functions";
 
+/*
+Import media
+*/
 import imagered from "../media/red.png";
 import imagegrey from "../media/grey.png";
 import chargeimage from "../media/charge.png";
 import parkingimage from "../media/parking.png";
 
+/*
+options for map.
+*/
 const containerStyle = {
     width: '100%',
     height: '900px',
 };
 
+/*
+options for cirkle om map around parking.
+*/
 const options = {
     strokeColor: 'green',
     strokeOpacity: 0.6,
@@ -30,6 +42,9 @@ const options = {
     zIndex: 1
 };
 
+/*
+Compoent for one-page render admin for "Kartvy inaktiva"
+*/
 export default function MapCityIn({center, city, cityID}) {
     const [status, setStatus] = useState(null);
     const [selectedZone, setSelectedZone] = useState(null);
@@ -56,26 +71,43 @@ export default function MapCityIn({center, city, cityID}) {
         // eslint-disable-next-line
     }, [])
 
+    //Function to set table depending on selected option.
     function statusGenerator(value) {
         setSelectedZone(value);
-        console.log(value);
         let array = [];
 
-        bikes.forEach((bike) => {
-            if (bike.charging === value) {
-                array.push(bike);
-            } else if (bike.parked === value) {
-                array.push(bike);
-            }
-        });
+        if (value === "fel") {
+            bikes.forEach((bike) => {
+                if (bike.charging === null && bike.parked === null) {
+                    array.push(bike);
+                }
+            });
 
-        if (array.length === 0) {
-            setStatus("tom");
+            if (array.length === 0) {
+                setStatus("tom");
+            } else {
+                setStatus(array);
+            }
+        } else if (value === "Alla") {
+            setStatus("Alla");
         } else {
-            setStatus(array);
+            bikes.forEach((bike) => {
+                if (bike.charging === value) {
+                    array.push(bike);
+                } else if (bike.parked === value) {
+                    array.push(bike);
+                }
+            });
+
+            if (array.length === 0) {
+                setStatus("tom");
+            } else {
+                setStatus(array);
+            }
         }
     }
 
+    //Set loading icon if map not set.
     if (loadError) {return "Error loading maps";}
     if (!isLoaded) {
         return <TailSpin stroke="#d4b242"
@@ -93,6 +125,7 @@ export default function MapCityIn({center, city, cityID}) {
                         onChange={e => statusGenerator(e.target.value)}
                         name="areastatus" id="areastatus">
                         <option className='optionbox' value="Alla"> Ingen vald </option>
+                        <option className='optionbox' value="fel"> Felparkerade </option>
                         {parkingPoints &&
                             parkingPoints.map((zone) => {
                                 return <option className='optionbox' value={zone._id}>
@@ -116,34 +149,37 @@ export default function MapCityIn({center, city, cityID}) {
                         <>
                             <h4>Tom laddstation eller parkeringsplats.</h4>
                         </>
-                        : <>
-                            <tbody className='tablehistory'>
-                                <tr>
-                                    <th>ID:</th>
-                                    <th>Namn:</th>
-                                    <th>Statuskod:</th>
-                                    <th>Laddar:</th>
-                                    <th>Parkerad:</th>
-                                    <th>Batterinivå:</th>
-                                </tr>
-                                {Array.isArray(status)
-                                    ?
-                                    status.map(value => {
-                                        return (
-                                            <tr>
-                                                <td>{value._id}</td>
-                                                <td>{value.name}</td>
-                                                <td>{value.status}</td>
-                                                {value.charging !== null ?
-                                                    <td>Ja</td> : <td>Nej</td>}
-                                                {value.parked !== null ?
-                                                    <td>Ja</td> :<td>Nej</td>}
-                                                <td>{value.batterylevel.toString()}%</td>
-                                            </tr>);
-                                    })
-                                    : null}
-                            </tbody>
-                        </>
+                        : status === "Alla" ?
+                            <>
+                            </>
+                            : <>
+                                <tbody className='tablehistory'>
+                                    <tr>
+                                        <th>ID:</th>
+                                        <th>Namn:</th>
+                                        <th>Statuskod:</th>
+                                        <th>Laddar:</th>
+                                        <th>Parkerad:</th>
+                                        <th>Batterinivå:</th>
+                                    </tr>
+                                    {Array.isArray(status)
+                                        ?
+                                        status.map(value => {
+                                            return (
+                                                <tr>
+                                                    <td>{value._id}</td>
+                                                    <td>{value.name}</td>
+                                                    <td>{value.status}</td>
+                                                    {value.charging !== null ?
+                                                        <td>Ja</td> : <td>Nej</td>}
+                                                    {value.parked !== null ?
+                                                        <td>Ja</td> :<td>Nej</td>}
+                                                    <td>{value.batterylevel.toString()}%</td>
+                                                </tr>);
+                                        })
+                                        : null}
+                                </tbody>
+                            </>
                 }
             </div>
             <div className="map">

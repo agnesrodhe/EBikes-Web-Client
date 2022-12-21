@@ -1,8 +1,15 @@
 import React from 'react';
 import { useEffect, useState, useRef } from 'react';
 
+/*
+Import models.
+*/
 import bikesModel from '../../../../../models/bikes.js';
+import functionsModel from "./functions/functions";
 
+/*
+Component for one-page render for admin - statuscheck.
+*/
 export default function StatusCheck({city, cityID}) {
     const [bikes, setBikes] = useState("");
     const [selectedOption, setSelectedOption] = useState("Alla");
@@ -15,96 +22,13 @@ export default function StatusCheck({city, cityID}) {
     useEffect(() => {
         selectedBikeFix.current = null;
         setBikes("No active bikes in this city");
-        updateBikes();
+        functionsModel.updateBikes(cityID, {setBikes, setStatus});
         // eslint-disable-next-line
     }, []);
 
-    function updateBikes() {
-        bikesModel.getAllBikesCity(cityID.current).then(function(result) {
-            setBikes(result);
-            setStatus(result);
-        });
-    }
-
-    function statusGenerator(value) {
-        selectedBikeFix.current = null;
-        updatedOne.current = null;
-        setSelectedBike(null);
-        setSelectedOption(value);
-        if (value === "Alla") {
-            setStatus(bikes);
-        } else if (value === "Aktiva") {
-            let array = [];
-
-            bikes.forEach((value) => {
-                if (value.active !== null) {
-                    array.push(value);
-                }
-                console.log(array);
-                setStatus(array);
-            });
-        } else if (value === "Parkerade") {
-            let array = [];
-
-            bikes.forEach((value) => {
-                if (value.parked !== null) {
-                    array.push(value);
-                }
-                setStatus(array);
-            });
-        } else if (value === "Laddande") {
-            let array = [];
-
-            bikes.forEach((value) => {
-                if (value.charging !== null) {
-                    array.push(value);
-                }
-                setStatus(array);
-            });
-        } else if (value === "Behöver laddas") {
-            let array = [];
-
-            bikes.forEach((value) => {
-                console.log(value.status);
-                if (value.status === "noBattery" && value.charging === null) {
-                    array.push(value);
-                }
-                setStatus(array);
-            });
-        } else if (value === "Behöver service") {
-            let array = [];
-
-            bikes.forEach((value) => {
-                if (value.status === "needService") {
-                    array.push(value);
-                }
-                setStatus(array);
-            });
-        }
-    }
-
-    function SelectOne(value) {
-        selectedBikeFix.current = "choosen";
-        updatedOne.current = null;
-        setsavedStatus(selectedOption);
-        setStatus([value]);
-        setSelectedBike(value.history);
-        console.log(value.history);
-    }
-
-    function unSelectOne(value) {
-        selectedBikeFix.current = null;
-        updatedOne.current = null;
-        statusGenerator(value);
-        setSelectedBike(null);
-    }
-
-    function updateOne() {
-        updatedOne.current = "updated";
-        setSelectedBike(null);
-    }
-
+    //Save updates for bike.
     function saveUpdate() {
+        updatedOne.current = null;
         let id = document.getElementById("id").value;
 
         let name = document.getElementById("name").value;
@@ -124,8 +48,9 @@ export default function StatusCheck({city, cityID}) {
 
         bikesModel.updateOneBike(id, value)
             .then(function() {
-                updateBikes();
-                statusGenerator(savedStatus);
+                functionsModel.updateBikes(cityID, {setBikes, setStatus});
+                functionsModel.statusGenerator(savedStatus, bikes,
+                    {setStatus, setSelectedOption});
             });
     }
 
@@ -142,12 +67,15 @@ export default function StatusCheck({city, cityID}) {
                     </h3>
                     <div className='selectoption'>
                         <select value={selectedOption}
-                            onChange={e => statusGenerator(e.target.value)}
+                            onChange={e => functionsModel.statusGenerator(e.target.value, bikes,
+                                {setStatus, setSelectedOption})}
                             name="areastatus" id="areastatus">
                             <option className='optionbox' value="Alla"> Alla </option>
                             <option className='optionbox' value="Aktiva">Aktiva</option>
-                            <option className='optionbox' value="Parkerade">Parkerade</option>
+                            <option className='optionbox' value="Parkerade">
+                                Inom parkeringszoner</option>
                             <option className='optionbox' value="Laddande">Laddande</option>
+                            <option className='optionbox' value="Felparkerade">Felparkerade</option>
                             <option className='optionbox' value="Behöver laddas">
                                 Behöver laddas</option>
                             <option className='optionbox' value="Behöver service">
@@ -190,11 +118,20 @@ export default function StatusCheck({city, cityID}) {
                                             <td>{value.batterylevel.toString()}%</td>
                                             {selectedBikeFix.current !== null ?
                                                 <button className='buttononselect'
-                                                    onClick={() =>{updateOne(value);}}>
+                                                    onClick={() =>{
+                                                        functionsModel.updateOne(
+                                                            {updatedOne, setSelectedBike});
+                                                    }}>
                                                         Uppdatera</button>
                                                 :
                                                 <button className='buttononselect'
-                                                    onClick={() =>{SelectOne(value);}}>
+                                                    onClick={() =>{
+                                                        functionsModel.selectedOne(value,
+                                                            {selectedBikeFix, updatedOne,
+                                                                setsavedStatus, setStatus,
+                                                                setSelectedBike,
+                                                                selectedOption});
+                                                    }}>
                                                         Resehistorik</button>
                                             }
                                         </tr>);
@@ -204,7 +141,11 @@ export default function StatusCheck({city, cityID}) {
                         {selectedBikeFix.current === "choosen" ?
                             <>
                                 <button className='buttononselect'
-                                    onClick={() =>{unSelectOne(savedStatus);}}>
+                                    onClick={() =>{
+                                        functionsModel.unSelectOne(savedStatus, bikes,
+                                            {selectedBikeFix, updatedOne,
+                                                setSelectedBike, setStatus, setSelectedOption});
+                                    }}>
                                     Tillbaka till "{savedStatus}"</button>
                                 {selectedBike !== null ?
                                     <div className='infobox'>

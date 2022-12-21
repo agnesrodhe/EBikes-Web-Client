@@ -2,8 +2,14 @@ import React from 'react';
 import { useState } from 'react';
 import {useNavigate}  from 'react-router-dom';
 
+/*
+Import model user to work toward rest:api.
+*/
 import userModel from '../../../../models/users.js';
 
+/*
+Component to show loginform and set variables if logged in correctly.
+*/
 export default function InSigner({setToken, setUserId, setUserRole}) {
     const [newUser, setNewUser] = useState("");
     const [errorMessage, setErrorMessage] = useState("");
