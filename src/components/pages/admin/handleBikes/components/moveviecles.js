@@ -1,5 +1,6 @@
 import React from 'react';
 import { useEffect, useState } from 'react';
+import {TailSpin} from 'react-loading-icons';
 
 /*
 Import model.
@@ -67,6 +68,8 @@ export default function MoveViecles({city, cityID}) {
                 </div>
                 {status === null ?
                     <>
+                        <TailSpin stroke="#d4b242"
+                            style={{ marginLeft: '47%', marginTop: "20%" }}/>;
                     </>
                     :
                     <>
