@@ -29,7 +29,7 @@ const options = {
     draggable: false,
     editable: false,
     visible: true,
-    radius: 100,
+    radius: 150,
     zIndex: 1
 };
 

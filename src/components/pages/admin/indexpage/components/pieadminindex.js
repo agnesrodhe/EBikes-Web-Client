@@ -25,7 +25,6 @@ export default function PieAdminIndex() {
 
     useEffect(() => {
         updateandsetbikes();
-        clienthandler();
         // eslint-disable-next-line
     }, []);
 
@@ -41,19 +40,31 @@ export default function PieAdminIndex() {
 
             let countadmin = 0;
 
-            result.forEach((customer) => {
-                if (customer.role === "admin") {
-                    countadmin = countadmin + 1;
-                } else if (customer.history.length === 0) {
-                    countzerotimes = countzerotimes + 1;
-                } else if (customer.history.length === 1) {
-                    countonetimes = countonetimes + 1;
-                } else if (customer.history.length > 1) {
-                    countmanytimes = countmanytimes + 1;
-                }
+            bikesModel.getAllBikes().then(function(result2) {
+                result.forEach((customer) => {
+                    if (customer.role === "admin") {
+                        countadmin = countadmin + 1;
+                    } else if (customer.history.length === 0) {
+                        let check = false;
+
+                        result2.forEach((bike) => {
+                            if (customer._id === bike.active) {
+                                countonetimes = countonetimes + 1;
+                                check = true;
+                            }
+                        });
+                        if (check === false) {
+                            countzerotimes = countzerotimes + 1;
+                        }
+                    } else if (customer.history.length === 1) {
+                        countonetimes = countonetimes + 1;
+                    } else if (customer.history.length > 1) {
+                        countmanytimes = countmanytimes + 1;
+                    }
+                });
+                setCountedCustomers([countzerotimes, countonetimes, countmanytimes, countadmin]);
+                countedUsers.current = countzerotimes + countonetimes + countmanytimes + countadmin;
             });
-            setCountedCustomers([countzerotimes, countonetimes, countmanytimes, countadmin]);
-            countedUsers.current = countzerotimes + countonetimes + countmanytimes + countadmin;
         });
     }
 
@@ -168,6 +179,7 @@ export default function PieAdminIndex() {
                     });
                 }
             });
+            clienthandler();
         });
     }
 
