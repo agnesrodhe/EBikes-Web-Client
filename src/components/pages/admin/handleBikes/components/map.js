@@ -12,7 +12,7 @@ import imagegreen from "../media/green.png";
 import chargeimage from "../media/charge.png";
 import parkingimage from "../media/parking.png";
 
-//Styling map
+//Styling map.
 const containerStyle = {
     width: '100%',
     height: '900px',

@@ -5,6 +5,7 @@ import {useState, useEffect} from 'react';
 import axios from 'axios';
 import './App.css';
 
+import priceModel from './models/prices';
 import userModel from './models/users';
 const baseURL = "http://localhost:3002";
 
@@ -29,6 +30,7 @@ function App() {
     const [user, setUserId] = useState("");
     const [role, setUserRole] = useState("");
     const [fullUser, setUser] = useState("loading");
+    const [pricesInit, setPricesInit] = useState("");
 
     useEffect(() => {
         (async () => {
@@ -60,6 +62,9 @@ function App() {
 
             const fullUser = await userModel.getUser(usr.id || usr._id || usr2._id);
 
+            const prices = await priceModel.getPrice();
+
+            setPricesInit(prices[0]);
             setUser(fullUser);
             setUserId(fullUser._id);
             setToken(fullUser.token);
@@ -85,7 +90,8 @@ function App() {
                         <Route path='/anvandare' element={
                             <User token={token} user={user} role={role} fullUser={fullUser}/>} />
                         <Route path='/anvandare/kostnader' element={
-                            <Prices token={token} user={user} role={role}/>} />
+                            <Prices token={token} user={user} role={role}
+                                pricesInit={pricesInit}/>} />
                         <Route path='/anvandare/kund' element={
                             <Client token={token} user={user} role={role}/>} />
                         <Route path='/anvandare/stad/:stad' element={
