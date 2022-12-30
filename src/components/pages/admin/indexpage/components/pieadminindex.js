@@ -31,7 +31,6 @@ export default function PieAdminIndex() {
     //Count users and set count for pie diagram.
     function clienthandler() {
         userModel.getAllCustomers().then(function(result) {
-            console.log(result);
             let countzerotimes = 0;
 
             let countonetimes = 0;

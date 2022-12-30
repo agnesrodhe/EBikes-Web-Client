@@ -2,10 +2,8 @@ import React from 'react';
 import {useState, useRef} from 'react';
 import {NavLink}  from 'react-router-dom';
 
-/*
-Import model for users to work toward rest:api.
-*/
-import userModel from '../../../../models/users.js';
+//Functions
+import functionsModel from "./components/functions";
 
 /*
 Component for route to update, change or delete user. If used to search for users aswell.
@@ -22,151 +20,6 @@ export default function Client({role}) {
     const handleClick = () => setClick(!click);
     const selectedUserFix = useRef(null);
     const updatedOne = useRef(null);
-
-    //Save and set changes.
-    function changeHandler(event) {
-        let newObject = {};
-
-        newObject[event.target.name] = event.target.value;
-        setsearch({...search, ...newObject});
-    }
-
-    //Function to search for user in model user.
-    function searcher() {
-        updatedOne.current = null;
-        setDeleted(false);
-        setUsr("");
-        if (advance === true) {
-            let user = document.getElementById("usrname").value;
-
-            let first = document.getElementById("frstname").value;
-
-            let last = document.getElementById("lstname").value;
-
-            if (user !== "") {
-                userModel.getSearchUsername(user).then(function(result) {
-                    if (result === "No user found") {
-                        setErrorMessage("Ingen användare hittad");
-                    } else {
-                        setErrorMessage(null);
-                        setUsr(result);
-                    }
-                });
-            } else if (first !== "" && last !== "") {
-                setErrorMessage(null);
-                userModel.getSearchUser(first, last).then(function(result) {
-                    if (result === "No user found") {
-                        setErrorMessage("Ingen användare hittad");
-                    } else {
-                        setErrorMessage(null);
-                        setUsr(result);
-                    }
-                });
-            } else {
-                setErrorMessage("Vänligen fyll i förnamn och efternamn");
-            }
-        } else {
-            userModel.getUser(search.id).then(function(result) {
-                if (result === "No user found") {
-                    setErrorMessage("Ingen användare hittad");
-                } else {
-                    setErrorMessage(null);
-                    setUsr(result);
-                }
-            });
-        }
-    }
-
-    //Set user if found.
-    function setAll() {
-        setErrorMessage(null);
-        userModel.getAllCustomers().then(function(result) {
-            if (result === "No user found") {
-                setErrorMessage("Ingen användare hittad");
-            } else {
-                setErrorMessage(null);
-                setUsr(result);
-            }
-        });
-    }
-
-    //Select one user.
-    function SelectOne(value) {
-        selectedUserFix.current = "choosen";
-        updatedOne.current = "";
-        setSelectedUser(value.history);
-    }
-
-    //Update user.
-    function updateOne(value) {
-        updatedOne.current = "updated";
-        selectedUserFix.current = "";
-        setSelectedUser(value);
-    }
-
-    //Uppdate changes with model users.
-    function saveUpdate() {
-        let id = document.getElementById("id").value;
-
-        let user = document.getElementById("username").value;
-
-        let first = document.getElementById("first").value;
-
-        let last = document.getElementById("last").value;
-
-
-        let value = { username: user,
-            firstName: first,
-            lastName: last};
-
-        userModel.updateUser(id, value)
-            .then(function() {
-                userModel.getUser(id).then(function(result) {
-                    setUsr(result);
-                });
-            });
-        selectedUserFix.current = null;
-        updatedOne.current = null;
-        setSelectedUser(null);
-    }
-
-    //Delete user.
-    function deleteUpdate(picked) {
-        if (deleted === true) {
-            setDeleted(false);
-            userModel.deleteUser(picked._id);
-            setUsr("");
-            selectedUserFix.current = null;
-            updatedOne.current = null;
-        } else {
-            setDeleted(true);
-        }
-    }
-
-    //Register new client.
-    function registerNew() {
-        let user = document.getElementById("username2").value;
-
-        let first = document.getElementById("first2").value;
-
-        let last = document.getElementById("last2").value;
-
-        let password = document.getElementById("passw2").value;
-
-
-        if (user && first && last && password) {
-            let value = { username: user,
-                firstName: first,
-                lastName: last,
-                password: password};
-
-            userModel.register(value).then(function(result) {
-                setErrorMessage(result);
-            });
-        } else {
-            setErrorMessage("Fyll i alla fält.");
-        }
-    }
 
     return (
         <div  className='body'>
@@ -200,9 +53,15 @@ export default function Client({role}) {
                                             <input id="passw2" className="updateinputs2"/>
                                             <p className='infonames4'>* får inte lämnas tomt.
                                             </p>
-                                            <button onClick={() => registerNew()}
-                                                className="buttonsavedata">
-                                                    Registrera ny kund</button>
+                                            <button onClick={() => functionsModel.registerNew(
+                                                document.getElementById("username2").value,
+                                                document.getElementById("first2").value,
+                                                document.getElementById("last2").value,
+                                                document.getElementById("passw2").value,
+                                                {setErrorMessage}
+                                            )}
+                                            className="buttonsavedata">
+                                                Registrera ny kund</button>
                                         </div>
                                     </>
                                     :
@@ -213,13 +72,22 @@ export default function Client({role}) {
                                             <div className='inputlogin'>
                                                 <div className='inputcontainer'>
                                                     <label>Användarens ID:</label>
-                                                    <input onChange={event => changeHandler(event)}
-                                                        placeholder='ange id' type="id"
-                                                        name="id">
+                                                    <input onChange={event =>
+                                                        functionsModel.changeHandler(
+                                                            event, {search, setsearch})}
+                                                    placeholder='ange id'
+                                                    type="id"
+                                                    name="id">
                                                     </input>
                                                 </div>
-                                                <button onClick={() => searcher()}
-                                                    className='loginbutton'>
+                                                <button onClick={() => functionsModel.searcher(
+                                                    document.getElementById("usrname").value,
+                                                    document.getElementById("frstname").value,
+                                                    document.getElementById("lstname").value,
+                                                    {setErrorMessage,
+                                                        setUsr, setDeleted, updatedOne,
+                                                        advance, search}
+                                                )} className='loginbutton'>
                                                     SÖK</button>
                                             </div>
                                         </div>
@@ -254,32 +122,46 @@ export default function Client({role}) {
                                         <div className='inputlogin'>
                                             <div className='inputcontainer'>
                                                 <label>Användarnamn</label>
-                                                <input onChange={event => changeHandler(event)}
-                                                    placeholder='ange användarnamn' type="username"
-                                                    name="username" id="usrname">
+                                                <input onChange={event =>
+                                                    functionsModel.changeHandler(event,
+                                                        {search, setsearch})}
+                                                placeholder='ange användarnamn' type="username"
+                                                name="username" id="usrname">
                                                 </input>
                                             </div>
                                             <h4>Kan du inte användarnamnet?</h4>
                                             <h4>Vänligen fyll i förnamnnamn och efternamn:</h4>
                                             <div className='inputcontainer'>
                                                 <label>Namn</label>
-                                                <input onChange={event => changeHandler(event)}
-                                                    placeholder='ange förnamn' type="firstName"
-                                                    name="firstName" id="frstname">
+                                                <input onChange={event =>
+                                                    functionsModel.changeHandler(event,
+                                                        {search, setsearch})}
+                                                placeholder='ange förnamn' type="firstName"
+                                                name="firstName" id="frstname">
                                                 </input>
                                             </div>
                                             <div className='inputcontainer'>
                                                 <label>Efternamn</label>
-                                                <input onChange={event => changeHandler(event)}
-                                                    placeholder='ange efternamn' type="lastName"
-                                                    name="lastName" id="lstname">
+                                                <input onChange={event =>
+                                                    functionsModel.changeHandler(event,
+                                                        {search, setsearch})}
+                                                placeholder='ange efternamn' type="lastName"
+                                                name="lastName" id="lstname">
                                                 </input>
                                             </div>
-                                            <button onClick={() => searcher()}
-                                                className='loginbutton'>
+                                            <button onClick={() => functionsModel.searcher(
+                                                document.getElementById("usrname").value,
+                                                document.getElementById("frstname").value,
+                                                document.getElementById("lstname").value,
+                                                {setErrorMessage, setUsr, setDeleted,
+                                                    updatedOne, advance, search}
+                                            )}
+                                            className='loginbutton'>
                                                 AVANCERAD SÖKNING</button>
-                                            <button onClick={() => setAll()}
-                                                className='loginbutton'>
+                                            <button onClick={() =>
+                                                functionsModel.setAll({setErrorMessage,
+                                                    setUsr})}
+                                            className='loginbutton'>
                                                 Alla användare</button>
                                         </div>
                                     </div>
@@ -312,12 +194,21 @@ export default function Client({role}) {
                                                     <td>{value.role}</td>
                                                     <td>
                                                         <button className='buttononselect'
-                                                            onClick={() =>{updateOne(value);}}>
+                                                            onClick={() =>{
+                                                                functionsModel.updateOne(value,
+                                                                    {updatedOne, selectedUserFix,
+                                                                        setSelectedUser
+                                                                    });
+                                                            }}>
                                                                 Uppdatera</button>
                                                     </td>
                                                     <td>
                                                         <button className='buttononselect'
-                                                            onClick={() =>{SelectOne(value);}}>
+                                                            onClick={() =>{
+                                                                functionsModel.SelectOne(value,
+                                                                    {updatedOne, selectedUserFix,
+                                                                        setSelectedUser});
+                                                            }}>
                                                                 Resehistorik</button>
                                                     </td>
                                                 </tr>);
@@ -344,12 +235,20 @@ export default function Client({role}) {
                                             <td>{usr.username}</td>
                                             <td>
                                                 <button className='buttononselect'
-                                                    onClick={() =>{updateOne(usr);}}>
+                                                    onClick={() =>{
+                                                        functionsModel.updateOne(usr,
+                                                            {updatedOne, selectedUserFix,
+                                                                setSelectedUser});
+                                                    }}>
                                                         Uppdatera användaren</button>
                                             </td>
                                             <td>
                                                 <button className='buttononselect'
-                                                    onClick={() =>{SelectOne(usr);}}>
+                                                    onClick={() =>{
+                                                        functionsModel.SelectOne(usr,
+                                                            {updatedOne, selectedUserFix,
+                                                                setSelectedUser});
+                                                    }}>
                                                         Resehistorik</button>
                                             </td>
                                         </tr>
@@ -365,20 +264,29 @@ export default function Client({role}) {
                                             {Array.isArray(selectedUser) && selectedUser.length > 0
                                                 ?
                                                 <tbody className='tablehistory'>
-                                                    <th>Resa:</th>
-                                                    <th>Rese ID:</th>
+                                                    <th>Fordons ID:</th>
+                                                    <th>Stad:</th>
                                                     <th>Starttid:</th>
                                                     <th>Stopptid:</th>
+                                                    <th>Kostnad:</th>
                                                     {selectedUser.map(value => {
-                                                        let count = 0;
-
                                                         return (
                                                             <>
                                                                 <tr>
-                                                                    <td>{count + 1}</td>
-                                                                    <td>{value._id}</td>
-                                                                    <td>{value.startTime}</td>
-                                                                    <td>{value.stopTime}</td>
+                                                                    <td>{value.bikeId ?
+                                                                        value.bikeId :
+                                                                        value.bikeid}</td>
+                                                                    <td>{value.city}</td>
+                                                                    <td>{value.startTime ?
+                                                                        value.startTime:
+                                                                        value.starttime}</td>
+                                                                    <td>{value.stopTime ?
+                                                                        value.stopTime:
+                                                                        value.stoptime}</td>
+                                                                    <td>{value.cost.totalcost ?
+                                                                        value.cost.totalcost :
+                                                                        value.cost}kr
+                                                                    </td>
                                                                 </tr>
                                                             </>
                                                         );
@@ -415,10 +323,18 @@ export default function Client({role}) {
                                     <p className='infonames'>Efternamn:</p>
                                     <input id="last" className="updateinputs"
                                         defaultValue={selectedUser.lastName}/>
-                                    <button onClick={() => saveUpdate()}
-                                        className="buttonsavedata">Spara ändring</button>
-                                    <button onClick={() => deleteUpdate(selectedUser)}
-                                        className="buttonsavedata2">Radera användare</button>
+                                    <button onClick={() => functionsModel.saveUpdate(
+                                        document.getElementById("id").value,
+                                        document.getElementById("username").value,
+                                        document.getElementById("first").value,
+                                        document.getElementById("last").value,
+                                        {selectedUserFix, updatedOne, setSelectedUser, setUsr}
+                                    )}
+                                    className="buttonsavedata">Spara ändring</button>
+                                    <button onClick={() =>
+                                        functionsModel.deleteUpdate(selectedUser, {deleted,
+                                            setDeleted, setUsr, selectedUserFix, updatedOne})}
+                                    className="buttonsavedata2">Radera användare</button>
                                 </div>
                             </div>
                             : null}
