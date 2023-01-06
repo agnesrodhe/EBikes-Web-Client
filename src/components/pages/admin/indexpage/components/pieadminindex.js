@@ -6,6 +6,7 @@ import { Pie } from 'react-chartjs-2';
 
 import bikesModel from '../../../../../models/bikes';
 import userModel from '../../../../../models/users';
+import TailSpin from 'react-loading-icons/dist/esm/components/tail-spin';
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
@@ -302,7 +303,11 @@ export default function PieAdminIndex() {
             <div className="citychart">
                 <h2 className='citynameh2'>Visby</h2>
                 <div className="chart-wrapper">
-                    <Pie data={dataVis}/>
+                    {bikesActiveBlg === "" ?
+                        <TailSpin stroke="#d4b242"
+                            style={{ marginLeft: '47%', marginTop: "20%" }}/>
+                        :
+                        <Pie data={dataVis}/>}
                 </div>
                 <div>
                     <h5 className='h5tot'>Totalt antal cyklar: {
@@ -314,7 +319,11 @@ export default function PieAdminIndex() {
             <div className="citychart">
                 <h2 className='citynameh2'>Borlänge</h2>
                 <div className="chart-wrapper">
-                    <Pie data={dataBlg}/>
+                    {bikesActiveBlg === "" ?
+                        <TailSpin stroke="#d4b242"
+                            style={{ marginLeft: '47%', marginTop: "20%" }}/>
+                        :
+                        <Pie data={dataBlg}/>}
                 </div>
                 <div>
                     <h5 className='h5tot'>Totalt antal cyklar: {
@@ -326,7 +335,11 @@ export default function PieAdminIndex() {
             <div className="citychart">
                 <h2 className='citynameh2'>Lund</h2>
                 <div className="chart-wrapper">
-                    <Pie data={dataLun}/>
+                    {bikesActiveBlg === "" ?
+                        <TailSpin stroke="#d4b242"
+                            style={{ marginLeft: '47%', marginTop: "20%" }}/>
+                        :
+                        <Pie data={dataLun}/>}
                 </div>
                 <div>
                     <h5 className='h5tot'>Totalt antal cyklar: {
@@ -338,7 +351,11 @@ export default function PieAdminIndex() {
             <div className="customerchart">
                 <h1 className='clientdata'>Kunder och kostnader</h1>
                 <div className="chart-wrapper2">
-                    <Pie data={dataClient}/>
+                    {bikesActiveBlg === "" ?
+                        <TailSpin stroke="#d4b242"
+                            style={{ marginLeft: '47%', marginTop: "20%" }}/>
+                        :
+                        <Pie data={dataClient}/>}
                 </div>
                 <div>
                     <h5 className='h5admin'>Antal användare: {
